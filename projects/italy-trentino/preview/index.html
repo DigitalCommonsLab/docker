@@ -12,7 +12,13 @@
   <script src="https://unpkg.com/bootstrap-list-filter@0.3.3/bootstrap-list-filter.src.js"></script>
   <script src="https://unpkg.com/underscore@1.9.1/underscore.js"></script>
   <script src="https://unpkg.com/leaflet-center-cross@0.0.8/dist/leaflet.CenterCross.js"></script>
-  
+  <script type="text/javascript">
+
+  //Entry point to connect Pelias
+  //
+  window.baseUrl = 'http://localhost:4000/v1';
+
+  </script>
   <style>
     #map {
       position: absolute;
@@ -109,8 +115,6 @@
   </div>
 
   <script>
-    
-    var baseUrl = 'http://localhost:4000/v1';
 
     var map = L.map('map', {
       center: [46.065489356722395, 11.151766777038574],
