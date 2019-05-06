@@ -2,11 +2,11 @@
 set -x
 
 # create directories
-mkdir -p /home/z4k/www/pelias/code 
-mkdir -p /data
-mkdir -p /mnt/pelias
+#mkdir -p /home/z4k/www/pelias/code 
+#mkdir -p /data
+#mkdir -p /mnt/pelias
 # set proper permissions. make sure the user matches your `DOCKER_USER` setting in `.env`
-chown z4k:z4k /home/z4k/www/pelias/code /data /mnt/pelias
+#chown z4k:z4k /home/z4k/www/pelias/code /data /mnt/pelias
 
 # install pelias script
 #ln -s "$(pwd)/pelias" /usr/local/bin/pelias

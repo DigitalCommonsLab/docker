@@ -49,7 +49,15 @@
   },
   "imports": {
     "adminLookup": {
-      "enabled": false
+      "enabled": true
+    },
+    "whosonfirst": {
+      "datapath": "/data/whosonfirst",
+      "importVenues": true,
+      "importPostalcodes": true,
+      "importPlace": [
+        "85685277"
+      ]
     },
     "openstreetmap": {
       "leveldbpath": "/tmp",
