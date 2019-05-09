@@ -166,19 +166,24 @@
 
       resLayer.clearLayers();
 
-      //map.panTo(e.latlng)
+      var layer = $('#layer').val(),
+          source = $('#source').val(),
+          params = {
+            'point.lat': e.latlng.lat,
+            'point.lon': e.latlng.lng,
+            'boundary.circle.radius': 20,
+          };
 
-      $.getJSON(baseUrl+'/reverse', {
-        'point.lat': e.latlng.lat,
-        'point.lon': e.latlng.lng,
-        //'layers': 'stops',
-        'boundary.circle.radius': 20,
-        //
-        //https://github.com/pelias/documentation/blob/master/reverse.md#reverse-geocoding-parameters
-        //
-      }).done(function(res) {
+        if(layer) {
+          params['layers']= layer;
+        }
+        if(source) {
+          params['sources']= source;
+        }
+
+      $.getJSON(baseUrl+'/reverse', params).done(function(res) {
         
-        //console.log(res)
+        console.log(res)
         
         resLayer.addData(res)
       })

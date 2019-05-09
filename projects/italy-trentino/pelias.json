@@ -49,23 +49,25 @@
   },
   "imports": {
     "adminLookup": {
-      "enabled": false
+      "enabled": true
     },
-    "openstreetmap": {
-      "adminLookup": {
-        "enabled":false
-      },
-      "leveldbpath": "/tmp",
-      "datapath": "/data/openstreetmap",
-      "import": [
-        {
-          "filename": "povo.osm.pbf"
-        }
+    "csv": {
+      "datapath": "/data/csv",
+      "files": [
+        "trento.csv"
+      ]
+    },
+    "whosonfirst": {
+      "datapath": "/data/whosonfirst",
+      "importVenues": true,
+      "importPostalcodes": true,
+      "importPlace": [
+        "85685277"
       ]
     },
     "polyline": {
       "datapath": "/data/polylines",
-      "files": [ "extract.0sv" ]
+      "files": [ "strade_trento.0sv" ]
     }
   }
 }
