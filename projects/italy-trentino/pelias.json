@@ -49,17 +49,12 @@
   },
   "imports": {
     "adminLookup": {
-      "enabled": true
-    },
-    "whosonfirst": {
-      "datapath": "/data/whosonfirst",
-      "importVenues": true,
-      "importPostalcodes": true,
-      "importPlace": [
-        "85685277"
-      ]
+      "enabled": false
     },
     "openstreetmap": {
+      "adminLookup": {
+        "enabled":false
+      },
       "leveldbpath": "/tmp",
       "datapath": "/data/openstreetmap",
       "import": [
@@ -67,6 +62,10 @@
           "filename": "povo.osm.pbf"
         }
       ]
+    },
+    "polyline": {
+      "datapath": "/data/polylines",
+      "files": [ "extract.0sv" ]
     }
   }
 }

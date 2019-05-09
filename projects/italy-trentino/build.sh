@@ -22,7 +22,7 @@ sed -i '/PELIAS_CONFIG/d' .env
 echo 'PELIAS_CONFIG=/home/z4k/www/pelias/docker/projects/italy-trentino/pelias.json' >> .env
 
 #download pelias docker images
-pelias compose pull
+#pelias compose pull
 
 pelias elastic start
 pelias elastic wait

@@ -44,6 +44,16 @@
     "defaultParameters": {
       "focus.point.lat": 45.52,
       "focus.point.lon": -122.67
+    },
+    "customBoosts": {
+      "layer": {
+        "address": 5,
+        "venue": 3
+      },
+      "source": {
+        "openstreetmap": 5,
+        "whosonfirst": 3
+      }
     }
   },
   "imports": {

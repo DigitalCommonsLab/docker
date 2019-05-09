@@ -172,7 +172,7 @@
         'point.lat': e.latlng.lat,
         'point.lon': e.latlng.lng,
         //'layers': 'stops',
-        'boundary.circle.radius': 10,
+        'boundary.circle.radius': 20,
         //
         //https://github.com/pelias/documentation/blob/master/reverse.md#reverse-geocoding-parameters
         //
@@ -216,9 +216,11 @@
           params['focus.point.lon']= cen.lng;
         }
 
+        console.log('params',params)
+
         //https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
         return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
-         
+
          var res = _.map(json.features, function(v) {
             return v.properties;
           });
