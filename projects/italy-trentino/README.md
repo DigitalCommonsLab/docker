@@ -1,23 +1,23 @@
 
-# Portland Metro Area
-
+# Trentino geocoder
 This project is configured to download/prepare/build a complete Pelias installation for Trentino Alto Adige in Italy
 
-It is intended as an example for other projects, feel free to copy->paste these files to a new project directory to kick-start your own project.
-
 # Setup
-
 Please refer to the instructions at https://github.com/pelias/docker in order to install and configure your docker environment.
 
-The minimum configuration required in order to run this project are [installing prerequisites](https://github.com/pelias/docker#prerequisites), [install the pelias command](https://github.com/pelias/docker#installing-the-pelias-command) and [configure the environment](https://github.com/pelias/docker#configure-environment).
-
-Please ensure that's all working fine before continuing.
+The file *.env* contains custom ENV variable passed to docker compose to specify
+data working directory and docker connection parameters:
+```
+COMPOSE_PROJECT_NAME=pelias
+DOCKER_USER=1000
+DOCKER_HOST=unix:///var/run/docker.sock
+DATA_DIR=/data
+PELIAS_CONFIG=/var/www/pelias/docker/projects/italy-trentino/pelias.json
+```
+*PELIAS_CONFIG* is absolute path di locate pelias config file
 
 # Run a Build
-
 To run a complete build configure and execute the script *build.sh*
-
-
 or the following commands separately:
 
 ```bash
@@ -37,3 +37,9 @@ pelias test run
 You can now make queries against your new Pelias build:
 
 http://localhost:4000/v1/search?text=pdx
+
+or use this demo front-end in path:
+preview/index.html
+
+use this tool to debug .polyline encoded linestring
+preview/polyline.html
