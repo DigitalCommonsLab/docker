@@ -29,20 +29,8 @@
   "api": {
     "textAnalyzer": "libpostal",
     "targets": {
-      "canonical_sources": ["transit","whosonfirst", "openstreetmap", "openaddresses", "geonames"],
       "layers_by_source": {
-        "transit": ["stops"]
-      }
-    },
-    "customBoosts": {
-      "layer": {
-        "stops":1
-      },
-      "source": {
-        "transit": 1,
-        "openstreetmap": 3,
-        "openaddresses": 2,
-        "whosonfirst":1
+        "transit": ["venue"]
       }
     },
     "defaultParameters": {

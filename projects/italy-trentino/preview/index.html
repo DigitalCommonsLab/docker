@@ -33,12 +33,19 @@
     .prop {
       font-size: 12px;
       line-height: 8px;
+      background-color: #fff;
+      border: none;
     }
     #searchlist_wrap {
       position: absolute;
       left:5px;
       top:5px;
       z-index:2000;
+    }
+    .leaflet-container a.leaflet-popup-close-button {
+      font-size: 30px;
+      opacity: 1;
+      margin: 3px;
     }
   </style>
 </head>
@@ -54,7 +61,7 @@
       <label class="form-control">layer
       <select id="layer" >
         <option selected=""></option>
-        <option value="stops">stops - gtfs imported with pelias/transit</option>
+        <option value="stop">stops - gtfs imported with pelias/transit</option>
         <option value="venue">venue - points of interest, businesses, things with walls</option>
         <option value="address">address - places with a street address</option>
         <option value="street">street -  streets,roads,highways</option>
@@ -120,10 +127,18 @@
 
   <script>
 
+    //window.center = [46.063442205135935, 11.156744956970217]
+    window.center = [46.06608115549046, 11.154845952987673]
+
+    var baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+    //var baselayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17});
+
     var map = L.map('map', {
-      center: [46.065489356722395, 11.151766777038574],
-      zoom: 15,
-      minZoom:2,
+      center: center,
+      zoom: 18,
+      minZoom: 5,
+      maxZoom: 18,
+      layers: baselayer
       //scrollWheelZoom: false
     });
 
@@ -147,20 +162,14 @@
     var geocodingOptions = {
         url: baseUrl,
         placeholder: "Geocoder",
-        expanded: true,
+        autocomplete: true,
+        //expanded: true,
         params: {
           size:30
         }
       };
 
     L.control.geocoder(null, geocodingOptions).addTo(map);
-
-    L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
-      attribution: 'Tiles by <a href="http://stamen.com">Stamen Design</a>',
-      maxZoom: 17,
-      minZoom: 1
-    }).addTo(map);
-
 
    L.control.centerCross({show: true}).addTo(map);
 
@@ -199,9 +208,9 @@
         var html = L.Util.template(
           //'{localadmin}, {region}, {region}, {macroregion}, {country}'+
           '<a class="list-group-item" href="#"><b>{label}</b>'+
-            ' <small>({distance}m)</small>'+
+            //' <small>({distance}m)</small>'+
             '<small class="pull-right">{layer}, {source}</small>'+
-          '</a>', data);
+          '</a>', data.properties);
         return $(html).data('f',data);
       },
       sourceData: function(text, callback) {
@@ -211,6 +220,9 @@
             params = {
               'text': text
             };
+
+        //params['lang']= 'it';
+        //params['multi_match']=1;
 
         if(layer) {
           params['layers']= layer;
@@ -230,17 +242,22 @@
         //https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
         return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
 
-         var res = _.map(json.features, function(v) {
-            return v.properties;
-          });
-
-          callback(res);
+          callback(json.features);
           
         });
       }
     }).on('click','a', function(e) {
       var f = $(e.currentTarget).data('f');
-      $('#resModal').modal().find('.modal-body').html(propToHtml(f))
+      
+      console.log(f);
+
+      //var g = L.geoJson(f).addTo(map);
+      
+      resLayer.clearLayers().addData(f);
+
+      map.fitBounds(resLayer.getBounds())
+
+      //$('#resModal').modal().find('.modal-body').html(propToHtml(f.properties))
     })
 
 

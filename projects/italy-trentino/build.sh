@@ -32,7 +32,9 @@ pelias elastic drop
 pelias elastic create
 # #pelias download all
 pelias prepare all
+#don't exists pelias prepare csv
 pelias import all
+pelias import csv
 pelias compose up
 
 # optionally run tests

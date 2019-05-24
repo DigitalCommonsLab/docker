@@ -32,14 +32,7 @@ pelias compose up
 pelias test run
 ```
 
-# Make an Example Query
+## API CONFIGI
 
-You can now make queries against your new Pelias build:
-
-http://localhost:4000/v1/search?text=pdx
-
-or use this demo front-end in path:
-preview/index.html
-
-use this tool to debug .polyline encoded linestring
-preview/polyline.html
+defaults values:
+https://github.com/pelias/config/blob/master/config/defaults.json
