@@ -37,9 +37,7 @@
       border: none;
     }
     #searchlist_wrap {
-      position: absolute;
-      left:5px;
-      top:5px;
+        position: relative;
       z-index:2000;
     }
     .leaflet-container a.leaflet-popup-close-button {
@@ -47,10 +45,14 @@
       opacity: 1;
       margin: 3px;
     }
+    .leaflet-center-cross {
+      font-size: 28px;
+    }
   </style>
 </head>
 <body>
-  
+  <div class="container-fluid">
+<h2>Testing Pelias Geocoder</h2>
   <form id="searchlist_wrap" class="form-inline">
     
     <div class="form-group">
@@ -58,8 +60,8 @@
       <input class="form-control" id="searchinput" type="text" placeholder="Search" />
       
       <!-- layers values https://github.com/pelias/documentation/blob/master/autocomplete.md#layers -->
-      <label class="form-control">layer
-      <select id="layer" >
+      <label>layer</label>
+      <select id="layer" class="form-control">
         <option selected=""></option>
         <option value="stop">stops - gtfs imported with pelias/transit</option>
         <option value="venue">venue - points of interest, businesses, things with walls</option>
@@ -76,12 +78,11 @@
         <option value="neighbourhood">neighbourhood - social communities, neighbourhoods</option>
         <option value="coarse">coarse -  alias for simultaneously using all administrative layers</option>
       </select>
-      </label>
       
       <!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
 
-      <label class="form-control">source
-      <select id="source">
+      <label>source</label>
+      <select id="source" class="form-control">
         <option selected=""></option>
         <option value="csv">csv files</option>
         <option value="osm">openstreetmap</option>
@@ -90,17 +91,21 @@
         <option value="wof">whosonfirst</option>
         <option value="transit">transit</option>
       </select>
-      </label>
+      
+      <div class="checkbox">
+        <label>nearby map center
+          <input id="nearby" type="checkbox" name="" value="true">
+        </label>
+      </div>
 
-      <label class="form-control">nearby map center
-        <input id="nearby" type="checkbox" name="" value="true">
-      </label>
+      <a class="btn btn-link pull-right" href="polyline.html">TEST polylines</a>
 
-      <a href="polyline.html">TEST polylines</a>
     </div>
     <div class="row">
-      <div id="searchlist" class="list-group">
-        <!-- FILLED DYNAMICALLY -->
+      <div class="col-md-6">
+        <div id="searchlist" class="list-group">
+          <!-- FILLED DYNAMICALLY -->
+        </div>
       </div>
     </div>      
   </form>
@@ -124,144 +129,153 @@
       </div>
     </div>
   </div>
+</div>
+<script>
 
-  <script>
+//window.center = [46.063442205135935, 11.156744956970217]
+window.center = [46.06608115549046, 11.154845952987673]
 
-    //window.center = [46.063442205135935, 11.156744956970217]
-    window.center = [46.06608115549046, 11.154845952987673]
+var baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+//var baselayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17});
 
-    var baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-    //var baselayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17});
+var map = L.map('map', {
+  center: center,
+  zoom: 18,
+  minZoom: 5,
+  maxZoom: 18,
+  layers: baselayer
+  //scrollWheelZoom: false
+});
 
-    var map = L.map('map', {
-      center: center,
-      zoom: 18,
-      minZoom: 5,
-      maxZoom: 18,
-      layers: baselayer
-      //scrollWheelZoom: false
-    });
+function propToHtml(p) {
+  return '<pre class="prop">'+JSON.stringify(p,null,"\n",4)+'</pre>';
+}
 
-    function propToHtml(p) {
-      return '<pre class="prop">'+JSON.stringify(p,null,"\n",4)+'</pre>';
-    }
-
-    var resLayer = L.geoJson([],{
-      onEachFeature: function(f, l) {
-        var html = propToHtml(f.properties);
-        l.bindPopup(html, {
-          autoPan:false,
-          maxWidth:600
-        });
-        l.on('add', function(e) {
-          this.openPopup();
-        })
+var resLayer = L.geoJson([],{
+  pointToLayer: function(point,ll) {
+    return L.circleMarker(ll, {
+      radius: 5,
+      style: {
+        opacity: 1,
+        fillOpacity: 1
       }
-    }).addTo(map);
+    });
+  },
+  onEachFeature: function(f, l) {
+    var html = propToHtml(f.properties);
+    l.bindPopup(html, {
+      autoPan:false,
+      maxWidth:600
+    });
+    l.on('add', function(e) {
+      this.openPopup();
+    })
+  }
+}).addTo(map);
 
-    var geocodingOptions = {
-        url: baseUrl,
-        placeholder: "Geocoder",
-        autocomplete: true,
-        //expanded: true,
-        params: {
-          size:30
-        }
-      };
-
-    L.control.geocoder(null, geocodingOptions).addTo(map);
-
-   L.control.centerCross({show: true}).addTo(map);
+/*L.control.geocoder(null, {
+  url: baseUrl,
+  placeholder: "Geocoder",
+  autocomplete: true,
+  //expanded: true,
+  params: {
+    size:30
+  }
+}).addTo(map);
+*/
+L.control.centerCross({
+  toggleText: ' &#128932;',
+  show: true
+}).addTo(map);
 
 //REVERSE GEOCODING
-    map.on('click', function(e) {
-      //console.log(e.latlng);
+map.on('click', function(e) {
 
-      resLayer.clearLayers();
+  var layer = $('#layer').val(),
+      source = $('#source').val(),
+      params = {
+        'point.lat': e.latlng.lat,
+        'point.lon': e.latlng.lng,
+        'boundary.circle.radius': 20,
+      };
 
-      var layer = $('#layer').val(),
-          source = $('#source').val(),
-          params = {
-            'point.lat': e.latlng.lat,
-            'point.lon': e.latlng.lng,
-            'boundary.circle.radius': 20,
-          };
+    if(layer) {
+      params['layers']= layer;
+    }
+    if(source) {
+      params['sources']= source;
+    }
 
-        if(layer) {
-          params['layers']= layer;
-        }
-        if(source) {
-          params['sources']= source;
-        }
+  resLayer.clearLayers();
+  $.getJSON(baseUrl+'/reverse', params).done(function(res) {
+    
+    console.log(res)
 
-      $.getJSON(baseUrl+'/reverse', params).done(function(res) {
-        
-        console.log(res)
-        
-        resLayer.addData(res)
-      })
+    res.features.reverse();
+    
+    resLayer.addData(res)
+  });
+
+});
+
+$('#searchlist').btsListFilter('#searchinput', {
+  loadingClass: 'loading',
+  sourceNode: function(data) {
+    var html = L.Util.template(
+      //'{localadmin}, {region}, {region}, {macroregion}, {country}'+
+      '<a class="list-group-item" href="#"><b>{label}</b>'+
+        //' <small>({distance}m)</small>'+
+        '<small class="pull-right">{layer}, {source}</small>'+
+      '</a>', data.properties);
+    return $(html).data('f',data);
+  },
+  sourceData: function(text, callback) {
+    //https://github.com/pelias/documentation/blob/master/autocomplete.md
+    var layer = $('#layer').val(),
+        source = $('#source').val(),
+        params = {
+          'text': text
+        };
+
+    //params['lang']= 'it';
+    //params['multi_match']=1;
+
+    if(layer) {
+      params['layers']= layer;
+    }
+    if(source) {
+      params['sources']= source;
+    }
+
+    if($('#nearby').prop('checked')) {
+      var cen = map.getCenter();
+      params['focus.point.lat']= cen.lat;
+      params['focus.point.lon']= cen.lng;
+    }
+
+    console.log('params',params)
+
+    //https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
+    return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
+
+      callback(json.features);
+      
     });
+  }
+}).on('click','a', function(e) {
+  var f = $(e.currentTarget).data('f');
+  
+  console.log(f);
 
-    $('#searchlist').btsListFilter('#searchinput', {
-      loadingClass: 'loading',
-      sourceNode: function(data) {
-        var html = L.Util.template(
-          //'{localadmin}, {region}, {region}, {macroregion}, {country}'+
-          '<a class="list-group-item" href="#"><b>{label}</b>'+
-            //' <small>({distance}m)</small>'+
-            '<small class="pull-right">{layer}, {source}</small>'+
-          '</a>', data.properties);
-        return $(html).data('f',data);
-      },
-      sourceData: function(text, callback) {
-        //https://github.com/pelias/documentation/blob/master/autocomplete.md
-        var layer = $('#layer').val(),
-            source = $('#source').val(),
-            params = {
-              'text': text
-            };
+  resLayer.clearLayers().addData(f);
 
-        //params['lang']= 'it';
-        //params['multi_match']=1;
+  map.fitBounds(resLayer.getBounds())
 
-        if(layer) {
-          params['layers']= layer;
-        }
-        if(source) {
-          params['sources']= source;
-        }
-
-        if($('#nearby').prop('checked')) {
-          var cen = map.getCenter();
-          params['focus.point.lat']= cen.lat;
-          params['focus.point.lon']= cen.lng;
-        }
-
-        console.log('params',params)
-
-        //https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
-        return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
-
-          callback(json.features);
-          
-        });
-      }
-    }).on('click','a', function(e) {
-      var f = $(e.currentTarget).data('f');
-      
-      console.log(f);
-
-      //var g = L.geoJson(f).addTo(map);
-      
-      resLayer.clearLayers().addData(f);
-
-      map.fitBounds(resLayer.getBounds())
-
-      //$('#resModal').modal().find('.modal-body').html(propToHtml(f.properties))
-    })
+  //$('#resModal').modal().find('.modal-body').html(propToHtml(f.properties))
+})
 
 
-    $('#searchinput').focus();
-  </script>
-  </body>
+$('#searchinput').focus();
+</script>
+</body>
 </html>

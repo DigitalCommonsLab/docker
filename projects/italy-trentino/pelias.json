@@ -39,7 +39,7 @@
         "stops":1
       },
       "source": {
-        "transit": 1,
+        "transit": 4,
         "openstreetmap": 3,
         "openaddresses": 2,
         "whosonfirst":1
