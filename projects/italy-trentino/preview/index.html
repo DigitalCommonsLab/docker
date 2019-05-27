@@ -1,60 +1,61 @@
 <html>
 <head>
-  <title>pelias demo</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
-  
-  <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.css">
-  
-  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.js"></script>
-  <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
-  <script src="https://unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/bootstrap-list-filter@0.3.3/bootstrap-list-filter.src.js"></script>
-  <script src="https://unpkg.com/underscore@1.9.1/underscore.js"></script>
-  <script src="https://unpkg.com/leaflet-center-cross@0.0.8/dist/leaflet.CenterCross.js"></script>
-  <script type="text/javascript">
+<title>pelias demo</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
 
-  //Entry point to connect Pelias
-  //
-  window.baseUrl = 'http://localhost:4000/v1';
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.css">
+
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.js"></script>
+<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-list-filter@0.3.3/bootstrap-list-filter.src.js"></script>
+<script src="https://unpkg.com/underscore@1.9.1/underscore.js"></script>
+<script src="https://unpkg.com/leaflet-center-cross@0.0.8/dist/leaflet.CenterCross.js"></script>
+<script type="text/javascript">
+
+//Entry point to connect Pelias
+//
+window.baseUrl = 'http://localhost:4000/v1';
 
 </script>
 <style>
-	#map {
-	  height: 500px;
-	  width: auto;
-  }
-  .prop {
-	  font-size: 12px;
-	  line-height: 8px;
-	  background-color: #fff;
-	  border: none;
-  }
-  #searchlist_wrap {
+#map {
+	height: 500px;
+	width: auto;
+}
+.prop {
+	font-size: 12px;
+	line-height: 8px;
+	background-color: #fff;
+	border: none;
+}
+#searchlist_wrap {
 	position: relative;
 	z-index:2000;
 }
 .leaflet-container a.leaflet-popup-close-button {
-  font-size: 30px;
-  opacity: 1;
-  margin: 3px;
+	font-size: 30px;
+	opacity: 1;
+	margin: 3px;
 }
 .leaflet-center-cross {
-  font-size: 28px;
+	font-size: 28px;
 }
 </style>
 </head>
 <body>
   <div class="container-fluid">
 	<h2>Testing Pelias Geocoder</h2>
-	
 	<div class="row">
-
 		<form class="form-inline">
-
 		  <div class="col-md-4">
+		  	<select id="searchtype">
+		  		<option value="autocomplete" selected="">Autocomplete</option>
+		  		<option value="search">Search</option>
+		  	</select>
 			<input class="form-control" id="searchinput" type="text" placeholder="Search" />
 
 			<div class="form-control">
@@ -69,22 +70,22 @@
 			<!-- layers values https://github.com/pelias/documentation/blob/master/autocomplete.md#layers -->
 			<label>layer</label>
 			<select id="layer" class="form-control">
-			  <option selected=""></option>
-			  <option value="stop">stops: gtfs imported with pelias/transit</option>
-			  <option value="venue">venue: points of interest, businesses   </option>
-			  <option value="address">address: places with a street address</option>
-			  <option value="street">street:  streets,roads,highways</option>
-			  <option value="country">country: nations, nation-states</option>
-			  <option value="macroregion">macroregion: a related group of regions</option>
-			  <option value="region">region: states and provinces</option>
-			  <option value="macrocounty">macrocounty: group of counties</option>
-			  <option value="county">county: official governmental area</option>
-			  <option value="locality">locality: towns, hamlets, cities</option>
-			  <option value="localadmin">localadmin: local admin bounds</option>
-			  <option value="neighbourhood">neighbourhood: social communities</option>
-			  <option value="coarse">coarse: all administrative layers</option>
-		  </select>
-	  </div>
+				<option selected=""></option>
+				<option value="stop">stops: gtfs imported with pelias/transit</option>
+				<option value="venue">venue: points of interest, businesses   </option>
+				<option value="address">address: places with a street address</option>
+				<option value="street">street:  streets,roads,highways</option>
+				<option value="country">country: nations, nation-states</option>
+				<option value="macroregion">macroregion: a related group of regions</option>
+				<option value="region">region: states and provinces</option>
+				<option value="macrocounty">macrocounty: group of counties</option>
+				<option value="county">county: official governmental area</option>
+				<option value="locality">locality: towns, hamlets, cities</option>
+				<option value="localadmin">localadmin: local admin bounds</option>
+				<option value="neighbourhood">neighbourhood: social communities</option>
+				<option value="coarse">coarse: all administrative layers</option>
+			</select>
+		</div>
 
 		<div class="col-md-4">
 			<!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
@@ -121,23 +122,7 @@
 		<div id="map"></div>
 	</div>
 	<div class="col-md-4">
-		<div class="form-control">
-			<div class="checkbox">
-				<label>enable custom boosts
-					<input id="boostson" type="checkbox" checked="checked"/>
-				</label>
-			</div>
-		</div>
-		<br />
-<textarea id="boosts" rows="10" cols="30" data-changed="0">
-{
-"layer.stops":1,
-"source.transit": 4,
-"source.openstreetmap": 3,
-"source.openaddresses": 2,
-"source.whosonfirst": 1
-}
-</textarea>
+		
 	</div>
 </div>
 
@@ -161,14 +146,16 @@
 </div>
 <script>
 
+window.baseUrl = window.baseUrl || 'http://localhost:4000/v1';
+
 //window.center = [46.063442205135935, 11.156744956970217]
 window.center = [46.06608115549046, 11.154845952987673]
 
 var $layer = $('#layer'),
-	$boosts = $('#boosts'),
 	$source = $('#source'),
 	$nearby = $('#nearby'),
-	$search = $('#searchinput').focus();
+	$search = $('#searchinput').focus(),
+	$searchtype = $('#searchtype'),
 
 var map = L.map('map', {
 	center: center,
@@ -190,13 +177,6 @@ function getParams(ll) {
 	if($source.val()) {
 	  params['sources']= $source.val();
 	}
-	if($('#boostson').prop('checked') && $boosts.val()) {
-		var vv = JSON.parse($boosts.val());
-		_.each(vv, function(v,k) {
-			console.log(v,k)
-			params["customBoosts."+k]=v;
-		});
-	}
 	if(ll) {
 		params['point.lat']= ll.lat;
 		params['point.lon']= ll.lng;
@@ -216,8 +196,8 @@ function propToHtml(p) {
 var resLayer = L.geoJson([],{
 	pointToLayer: function(point,ll) {
 		return L.circleMarker(ll, {
-		  radius: 5,
-		  style: {
+			radius: 5,
+			style: {
 				opacity: 1,
 				fillOpacity: 1
 			}
@@ -270,10 +250,8 @@ $('#searchlist').btsListFilter('#searchinput', {
 		
 		params.text = text;
 
-		console.log('params',params)
-
 		//https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
-		return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
+		return $.getJSON(baseUrl+'/'+$searchtype.val(), params, function(json) {
 
 			  callback(json.features);
 			  
