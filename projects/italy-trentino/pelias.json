@@ -34,17 +34,6 @@
         "transit": ["stops"]
       }
     },
-    "customBoosts": {
-      "layer": {
-        "stops":1
-      },
-      "source": {
-        "transit": 4,
-        "openstreetmap": 3,
-        "openaddresses": 2,
-        "whosonfirst":1
-      }
-    },
     "defaultParameters": {
       "focus.point.lat": 46.063442,
       "focus.point.lon": 11.156744

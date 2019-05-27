@@ -47,12 +47,13 @@
     },
     "customBoosts": {
       "layer": {
-        "address": 5,
-        "venue": 3
+        "stops":1
       },
       "source": {
-        "openstreetmap": 5,
-        "whosonfirst": 3
+        "transit": 1,
+        "openstreetmap": 1,
+        "openaddresses": 1,
+        "whosonfirst":1
       }
     }
   },

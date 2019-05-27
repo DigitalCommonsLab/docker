@@ -20,169 +20,221 @@
   //
   window.baseUrl = 'http://localhost:4000/v1';
 
-  </script>
-  <style>
-    #map {
-      position: absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      top:120px;
-      z-index: 1000;
-    }
-    .prop {
-      font-size: 12px;
-      line-height: 8px;
-      background-color: #fff;
-      border: none;
-    }
-    #searchlist_wrap {
-        position: relative;
-      z-index:2000;
-    }
-    .leaflet-container a.leaflet-popup-close-button {
-      font-size: 30px;
-      opacity: 1;
-      margin: 3px;
-    }
-    .leaflet-center-cross {
-      font-size: 28px;
-    }
-  </style>
+</script>
+<style>
+	#map {
+	  height: 500px;
+	  width: auto;
+  }
+  .prop {
+	  font-size: 12px;
+	  line-height: 8px;
+	  background-color: #fff;
+	  border: none;
+  }
+  #searchlist_wrap {
+	position: relative;
+	z-index:2000;
+}
+.leaflet-container a.leaflet-popup-close-button {
+  font-size: 30px;
+  opacity: 1;
+  margin: 3px;
+}
+.leaflet-center-cross {
+  font-size: 28px;
+}
+</style>
 </head>
 <body>
   <div class="container-fluid">
-<h2>Testing Pelias Geocoder</h2>
-  <form id="searchlist_wrap" class="form-inline">
-    
-    <div class="form-group">
-     
-      <input class="form-control" id="searchinput" type="text" placeholder="Search" />
-      
-      <!-- layers values https://github.com/pelias/documentation/blob/master/autocomplete.md#layers -->
-      <label>layer</label>
-      <select id="layer" class="form-control">
-        <option selected=""></option>
-        <option value="stop">stops - gtfs imported with pelias/transit</option>
-        <option value="venue">venue - points of interest, businesses, things with walls</option>
-        <option value="address">address - places with a street address</option>
-        <option value="street">street -  streets,roads,highways</option>
-        <option value="country">country - places that issue passports, nations, nation-states</option>
-        <option value="macroregion">macroregion - a related group of regions. Mostly in Europe</option>
-        <option value="region">region -  states and provinces</option>
-        <option value="macrocounty">macrocounty - a related group of counties. Mostly in Europe.</option>
-        <option value="county">county -  official governmental area</option>
-        <option value="locality">locality -  towns, hamlets, cities</option>
-        <option value="localadmin">localadmin -  local administrative boundaries</option>
-        <!-- <option value="borough">borough - a local administrative boundary, currently only used for New York City</option> -->
-        <option value="neighbourhood">neighbourhood - social communities, neighbourhoods</option>
-        <option value="coarse">coarse -  alias for simultaneously using all administrative layers</option>
-      </select>
-      
-      <!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
+	<h2>Testing Pelias Geocoder</h2>
+	
+	<div class="row">
 
-      <label>source</label>
-      <select id="source" class="form-control">
-        <option selected=""></option>
-        <option value="csv">csv files</option>
-        <option value="osm">openstreetmap</option>
-        <option value="oa">openaddresses</option>
-        <option value="gn">geonames</option>
-        <option value="wof">whosonfirst</option>
-        <option value="transit">transit</option>
-      </select>
-      
-      <div class="checkbox">
-        <label>nearby map center
-          <input id="nearby" type="checkbox" name="" value="true">
-        </label>
-      </div>
+		<form class="form-inline">
 
-      <a class="btn btn-link pull-right" href="polyline.html">TEST polylines</a>
+		  <div class="col-md-4">
+			<input class="form-control" id="searchinput" type="text" placeholder="Search" />
 
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div id="searchlist" class="list-group">
-          <!-- FILLED DYNAMICALLY -->
-        </div>
-      </div>
-    </div>      
-  </form>
+			<div class="form-control">
+				<div class="checkbox">
+					<label>nearby map center
+						<input id="nearby" type="checkbox" name="" value="true">
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<!-- layers values https://github.com/pelias/documentation/blob/master/autocomplete.md#layers -->
+			<label>layer</label>
+			<select id="layer" class="form-control">
+			  <option selected=""></option>
+			  <option value="stop">stops: gtfs imported with pelias/transit</option>
+			  <option value="venue">venue: points of interest, businesses   </option>
+			  <option value="address">address: places with a street address</option>
+			  <option value="street">street:  streets,roads,highways</option>
+			  <option value="country">country: nations, nation-states</option>
+			  <option value="macroregion">macroregion: a related group of regions</option>
+			  <option value="region">region: states and provinces</option>
+			  <option value="macrocounty">macrocounty: group of counties</option>
+			  <option value="county">county: official governmental area</option>
+			  <option value="locality">locality: towns, hamlets, cities</option>
+			  <option value="localadmin">localadmin: local admin bounds</option>
+			  <option value="neighbourhood">neighbourhood: social communities</option>
+			  <option value="coarse">coarse: all administrative layers</option>
+		  </select>
+	  </div>
 
-  <div id="map"></div>
-
-  <div class="modal fade" id="resModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Result properties</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-        </div>
-      </div>
-    </div>
+		<div class="col-md-4">
+			<!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
+			<label>source</label>
+			<select id="source" class="form-control">
+			<option selected=""></option>
+			<option value="csv">csv files</option>
+			<option value="osm">openstreetmap</option>
+			<option value="oa">openaddresses</option>
+			<option value="gn">geonames</option>
+			<option value="wof">whosonfirst</option>
+			<option value="transit">transit</option>
+			</select>
+		</div>
+	</form>
   </div>
+</div>
+
+<div class="row" id="searchlist_wrap">
+	<div class="col-md-5">
+		<div id="searchlist" class="list-group">
+		  <!-- FILLED DYNAMICALLY -->
+		</div>
+	</div>
+	<div class="col-md-5">
+	</div>
+	<div class="col-md-5">
+		<a class="btn btn-link pull-right" href="polyline.html">TEST polylines</a>
+	</div>
+</div>      
+
+<div class="row">
+	<div class="col-md-8">
+		<div id="map"></div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-control">
+			<div class="checkbox">
+				<label>enable custom boosts
+					<input id="boostson" type="checkbox" checked="checked"/>
+				</label>
+			</div>
+		</div>
+		<br />
+<textarea id="boosts" rows="10" cols="30" data-changed="0">
+{
+"layer.stops":1,
+"source.transit": 4,
+"source.openstreetmap": 3,
+"source.openaddresses": 2,
+"source.whosonfirst": 1
+}
+</textarea>
+	</div>
+</div>
+
+<div class="modal fade" id="resModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Result properties</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+	  ...
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>
+</div>
+</div>
 </div>
 <script>
 
 //window.center = [46.063442205135935, 11.156744956970217]
 window.center = [46.06608115549046, 11.154845952987673]
 
-var baselayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-//var baselayer = L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17});
+var $layer = $('#layer'),
+	$boosts = $('#boosts'),
+	$source = $('#source'),
+	$nearby = $('#nearby'),
+	$search = $('#searchinput').focus();
 
 var map = L.map('map', {
-  center: center,
-  zoom: 18,
-  minZoom: 5,
-  maxZoom: 18,
-  layers: baselayer
-  //scrollWheelZoom: false
+	center: center,
+	zoom: 18,
+	minZoom: 5,
+	maxZoom: 18,
+	layers: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+	//layers: L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17}),
+	//scrollWheelZoom: false
 });
+
+function getParams(ll) {
+	
+	var params = {};
+
+	if($layer.val()) {
+	  params['layers']= $layer.val();
+	}
+	if($source.val()) {
+	  params['sources']= $source.val();
+	}
+	if($('#boostson').prop('checked') && $boosts.val()) {
+		var vv = JSON.parse($boosts.val());
+		_.each(vv, function(v,k) {
+			console.log(v,k)
+			params["customBoosts."+k]=v;
+		});
+	}
+	if(ll) {
+		params['point.lat']= ll.lat;
+		params['point.lon']= ll.lng;
+	}
+ 	if($nearby.prop('checked')) {
+	  var cen = map.getCenter();
+	  params['focus.point.lat']= cen.lat;
+	  params['focus.point.lon']= cen.lng;
+  	}
+	return params;
+}
 
 function propToHtml(p) {
   return '<pre class="prop">'+JSON.stringify(p,null,"\n",4)+'</pre>';
 }
 
 var resLayer = L.geoJson([],{
-  pointToLayer: function(point,ll) {
-    return L.circleMarker(ll, {
-      radius: 5,
-      style: {
-        opacity: 1,
-        fillOpacity: 1
-      }
-    });
-  },
-  onEachFeature: function(f, l) {
-    var html = propToHtml(f.properties);
-    l.bindPopup(html, {
-      autoPan:false,
-      maxWidth:600
-    });
-    l.on('add', function(e) {
-      this.openPopup();
-    })
-  }
+	pointToLayer: function(point,ll) {
+		return L.circleMarker(ll, {
+		  radius: 5,
+		  style: {
+				opacity: 1,
+				fillOpacity: 1
+			}
+		});
+	},
+	onEachFeature: function(f, l) {
+		var html = propToHtml(f.properties);
+		l.bindPopup(html, {
+			autoPan:false,
+			maxWidth:600
+		});
+		l.on('add', function(e) {
+		  this.openPopup();
+		})
+	}
 }).addTo(map);
 
-/*L.control.geocoder(null, {
-  url: baseUrl,
-  placeholder: "Geocoder",
-  autocomplete: true,
-  //expanded: true,
-  params: {
-    size:30
-  }
-}).addTo(map);
-*/
 L.control.centerCross({
   toggleText: ' &#128932;',
   show: true
@@ -191,91 +243,62 @@ L.control.centerCross({
 //REVERSE GEOCODING
 map.on('click', function(e) {
 
-  var layer = $('#layer').val(),
-      source = $('#source').val(),
-      params = {
-        'point.lat': e.latlng.lat,
-        'point.lon': e.latlng.lng,
-        'boundary.circle.radius': 20,
-      };
+	var params = getParams(e.latlng);
 
-    if(layer) {
-      params['layers']= layer;
-    }
-    if(source) {
-      params['sources']= source;
-    }
+console.log(params)
 
-  resLayer.clearLayers();
-  $.getJSON(baseUrl+'/reverse', params).done(function(res) {
-    
-    console.log(res)
-
-    res.features.reverse();
-    
-    resLayer.addData(res)
-  });
-
+	resLayer.clearLayers();
+	$.getJSON(baseUrl+'/reverse', params).done(function(res) {
+		res.features.reverse();
+		resLayer.addData(res)
+	});
 });
 
 $('#searchlist').btsListFilter('#searchinput', {
-  loadingClass: 'loading',
-  sourceNode: function(data) {
-    var html = L.Util.template(
-      //'{localadmin}, {region}, {region}, {macroregion}, {country}'+
-      '<a class="list-group-item" href="#"><b>{label}</b>'+
-        //' <small>({distance}m)</small>'+
-        '<small class="pull-right">{layer}, {source}</small>'+
-      '</a>', data.properties);
-    return $(html).data('f',data);
-  },
-  sourceData: function(text, callback) {
-    //https://github.com/pelias/documentation/blob/master/autocomplete.md
-    var layer = $('#layer').val(),
-        source = $('#source').val(),
-        params = {
-          'text': text
-        };
+	loadingClass: 'loading',
+	sourceNode: function(data) {
+		var html = L.Util.template(
+			'<a class="list-group-item" href="#"><b>{label}</b>'+
+			'<small class="pull-right">{layer}, {source}</small>'+
+			'</a>', data.properties);
+		return $(html).data('f',data);
+	},
+	sourceData: function(text, callback) {
+		//https://github.com/pelias/documentation/blob/master/autocomplete.md
 
-    //params['lang']= 'it';
-    //params['multi_match']=1;
+	  	var params = getParams();
+		
+		params.text = text;
 
-    if(layer) {
-      params['layers']= layer;
-    }
-    if(source) {
-      params['sources']= source;
-    }
+		console.log('params',params)
 
-    if($('#nearby').prop('checked')) {
-      var cen = map.getCenter();
-      params['focus.point.lat']= cen.lat;
-      params['focus.point.lon']= cen.lng;
-    }
+		//https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
+		return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
 
-    console.log('params',params)
-
-    //https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
-    return $.getJSON(baseUrl+'/autocomplete', params, function(json) {
-
-      callback(json.features);
-      
-    });
-  }
-}).on('click','a', function(e) {
+			  callback(json.features);
+			  
+			});
+	}
+})
+.on('click','a', function(e) {
   var f = $(e.currentTarget).data('f');
-  
-  console.log(f);
 
   resLayer.clearLayers().addData(f);
-
   map.fitBounds(resLayer.getBounds())
-
   //$('#resModal').modal().find('.modal-body').html(propToHtml(f.properties))
-})
+});
 
 
-$('#searchinput').focus();
+/*L.control.geocoder(null, {
+  url: baseUrl,
+  placeholder: "Geocoder",
+  autocomplete: true,
+  //expanded: true,
+  params: {
+	size:30
+  }
+}).addTo(map);
+*/
 </script>
 </body>
 </html>
