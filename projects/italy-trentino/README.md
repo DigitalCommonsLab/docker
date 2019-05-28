@@ -29,7 +29,6 @@ pelias download all
 pelias prepare all
 pelias import all
 pelias compose up
-pelias test run
 ```
 
 ## API CONFIGI
