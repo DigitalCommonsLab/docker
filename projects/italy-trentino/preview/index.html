@@ -31,6 +31,8 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 	line-height: 8px;
 	background-color: #fff;
 	border: none;
+	max-height: 200px;
+	overflow-y: auto;
 }
 #searchlist_wrap {
 	position: relative;
@@ -213,7 +215,10 @@ var resLayer = L.geoJson([],{
 		});
 	},
 	onEachFeature: function(f, l) {
-		var html = propToHtml(f.properties);
+		
+		var html = '<h3>'+(f.properties.name||'unamed')+'</h3>'+
+			propToHtml(f.properties);
+
 		l.bindPopup(html, {
 			autoPan:false,
 			maxWidth:600
