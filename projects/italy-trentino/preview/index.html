@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>pelias demo</title>
+<title>Testing Pelias Geocoder for Trentino Data</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
 
@@ -18,12 +18,12 @@
 
 //Entry point to connect Pelias
 //
-window.baseUrl = 'http://localhost:4000/v1';
+window.baseUrl = 'http://'+location.hostname+':4000/v1';
 
 </script>
 <style>
 #map {
-	height: 500px;
+	height: 700px;
 	width: auto;
 }
 .prop {
@@ -35,6 +35,11 @@ window.baseUrl = 'http://localhost:4000/v1';
 #searchlist_wrap {
 	position: relative;
 	z-index:2000;
+}
+#searchlist {
+	position: absolute;
+	left: 0;
+	top: 20px;
 }
 .leaflet-container a.leaflet-popup-close-button {
 	font-size: 30px;
@@ -51,12 +56,14 @@ window.baseUrl = 'http://localhost:4000/v1';
 	<h2>Testing Pelias Geocoder</h2>
 	<div class="row">
 		<form class="form-inline">
-		  <div class="col-md-4">
+		  <div class="col-md-5">
+
+			<input class="form-control" size="50" id="searchinput" type="text" placeholder="Search" />
+		  	
 		  	<select id="searchtype">
 		  		<option value="autocomplete" selected="">Autocomplete</option>
 		  		<option value="search">Search</option>
 		  	</select>
-			<input class="form-control" id="searchinput" type="text" placeholder="Search" />
 
 			<div class="form-control">
 				<div class="checkbox">
@@ -87,7 +94,7 @@ window.baseUrl = 'http://localhost:4000/v1';
 			</select>
 		</div>
 
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
 			<label>source</label>
 			<select id="source" class="form-control">
@@ -104,10 +111,12 @@ window.baseUrl = 'http://localhost:4000/v1';
   </div>
 </div>
 
-<div class="row" id="searchlist_wrap">
+<div class="row">
 	<div class="col-md-5">
-		<div id="searchlist" class="list-group">
-		  <!-- FILLED DYNAMICALLY -->
+		<div id="searchlist_wrap">
+			<div id="searchlist" class="list-group">
+			  <!-- FILLED DYNAMICALLY -->
+			</div>
 		</div>
 	</div>
 	<div class="col-md-5">
@@ -155,7 +164,7 @@ var $layer = $('#layer'),
 	$source = $('#source'),
 	$nearby = $('#nearby'),
 	$search = $('#searchinput').focus(),
-	$searchtype = $('#searchtype'),
+	$searchtype = $('#searchtype');
 
 var map = L.map('map', {
 	center: center,

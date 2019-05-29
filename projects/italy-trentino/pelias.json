@@ -55,14 +55,14 @@
   },
   "imports": {
     "adminLookup": {
-      "enabled": false
+      "enabled": true
     },
     "openstreetmap": {
       "leveldbpath": "/tmp",
       "datapath": "/data/openstreetmap",
       "import": [
         {
-          "filename": "povo.osm.pbf"
+          "filename": "trentino-alto-adige.osm.pbf"
         }
       ]
     },
@@ -86,7 +86,7 @@
     "whosonfirst": {
       "datapath": "/data/whosonfirst",
       "importVenues": false,
-      "importPostalcodes": false,
+      "importPostalcodes": true,
       "importPlace": [
         "85685277"
       ]
