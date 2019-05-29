@@ -180,15 +180,25 @@ var $layer = $('#layer'),
 	$search = $('#searchinput').focus(),
 	$searchtype = $('#searchtype');
 
+var baseLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+
 var map = L.map('map', {
 	center: center,
 	zoom: 18,
 	minZoom: 5,
 	maxZoom: 18,
-	layers: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+	layers: baseLayer,
 	//layers: L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17}),
 	//scrollWheelZoom: false
 });
+
+L.control.layers({
+       'OpenStreetMap': baseLayer,
+       'Satellite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+},null, {
+       collapsed: false
+}).addTo(map);
+
 
 function getParams(ll) {
 	
