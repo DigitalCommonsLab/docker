@@ -29,7 +29,7 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 .prop {
 	font-size: 12px;
 	line-height: 8px;
-	background-color: #fff;
+	background: none;
 	border: none;
 	max-height: 200px;
 	overflow-y: auto;
@@ -51,6 +51,9 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 .leaflet-center-cross {
 	font-size: 28px;
 }
+.leaflet-popup-content-wrapper {
+	background: rgba(255,255,255,0.8);
+}
 </style>
 </head>
 <body>
@@ -69,8 +72,16 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 
 			<div class="form-control">
 				<div class="checkbox">
-					<label>nearby map center
-						<input id="nearby" type="checkbox" name="" value="true">
+					<label>Focus point map center
+						<input id="focus" type="checkbox" name="" value="true">
+					</label>
+				</div>
+			</div>
+
+			<div class="form-control">
+				<div class="checkbox">
+					<label>Only in map Boundaries
+						<input id="bounds" type="checkbox" name="" value="true">
 					</label>
 				</div>
 			</div>
@@ -164,7 +175,8 @@ window.center = [46.06608115549046, 11.154845952987673]
 
 var $layer = $('#layer'),
 	$source = $('#source'),
-	$nearby = $('#nearby'),
+	$focus = $('#focus'),
+	$bounds = $('#bounds'),
 	$search = $('#searchinput').focus(),
 	$searchtype = $('#searchtype');
 
@@ -180,38 +192,50 @@ var map = L.map('map', {
 
 function getParams(ll) {
 	
-	var params = {};
+	var params = {},
+		cen = map.getCenter(),
+		bb = map.getBounds();
 
 	if($layer.val()) {
-	  params['layers']= $layer.val();
+		params['layers'] = $layer.val();
 	}
 	if($source.val()) {
-	  params['sources']= $source.val();
+		params['sources'] = $source.val();
 	}
 	if(ll) {
-		params['point.lat']= ll.lat;
-		params['point.lon']= ll.lng;
+		params['point.lat'] = ll.lat;
+		params['point.lon'] = ll.lng;
 	}
- 	if($nearby.prop('checked')) {
-	  var cen = map.getCenter();
-	  params['focus.point.lat']= cen.lat;
-	  params['focus.point.lon']= cen.lng;
-  	}
+	if($focus.prop('checked')) {
+		params['focus.point.lat'] = cen.lat;
+		params['focus.point.lon'] = cen.lng;
+	}
+	if($bounds.prop('checked')) {
+		params['boundary.rect.min_lon'] = bb.getSouth();
+		params['boundary.rect.max_lon'] = bb.getNorth();
+		params['boundary.rect.min_lat'] = bb.getWest();
+		params['boundary.rect.max_lat'] = bb.getEast();
+	}
+
 	return params;
 }
 
 function propToHtml(p) {
-  return '<pre class="prop">'+JSON.stringify(p,null,"\n",4)+'</pre>';
+	return '<pre class="prop">'+JSON.stringify(p,null,"\n",4)+'</pre>';
 }
 
-var resLayer = L.geoJson([],{
-	pointToLayer: function(point,ll) {
+var resLayer = L.geoJson([], {
+	style: function(f) {
+		return {
+			color: 'red',
+			opacity: .8,
+			fillOpacity: .5
+		};
+	},
+	pointToLayer: function(f,ll) {
+		var r = 20-(1000*f.properties.distance);
 		return L.circleMarker(ll, {
-			radius: 5,
-			style: {
-				opacity: 1,
-				fillOpacity: 1
-			}
+			radius: 4//Math.max(r, 4)
 		});
 	},
 	onEachFeature: function(f, l) {
@@ -222,8 +246,14 @@ var resLayer = L.geoJson([],{
 		l.bindPopup(html, {
 			autoPan:false,
 			maxWidth:600
-		});
-		l.on('add', function(e) {
+		}).on('mouseover', function (e) {
+            this.openPopup();
+        })
+        /*.on('mouseout', function (e) {
+            this.closePopup();
+        })*/
+        .on('add', function(e) {
+
 		  this.openPopup();
 		})
 	}
@@ -239,12 +269,16 @@ map.on('click', function(e) {
 
 	var params = getParams(e.latlng);
 
-console.log(params)
-
 	resLayer.clearLayers();
+	
+	var m = L.marker(e.latlng).addTo(resLayer);
+
 	$.getJSON(baseUrl+'/reverse', params).done(function(res) {
 		res.features.reverse();
-		resLayer.addData(res)
+		resLayer.addData(res);
+		resLayer.eachLayer(function(l) {
+			L.polyline([m.getLatLng(), l.getLatLng()],{color:'red'}).addTo(resLayer)
+		});
 	});
 });
 
@@ -266,10 +300,8 @@ $('#searchlist').btsListFilter('#searchinput', {
 
 		//https://github.com/pelias/documentation/blob/master/autocomplete.md#layers)
 		return $.getJSON(baseUrl+'/'+$searchtype.val(), params, function(json) {
-
-			  callback(json.features);
-			  
-			});
+		  callback(json.features);
+		});
 	}
 })
 .on('click','a', function(e) {
@@ -280,17 +312,6 @@ $('#searchlist').btsListFilter('#searchinput', {
   //$('#resModal').modal().find('.modal-body').html(propToHtml(f.properties))
 });
 
-
-/*L.control.geocoder(null, {
-  url: baseUrl,
-  placeholder: "Geocoder",
-  autocomplete: true,
-  //expanded: true,
-  params: {
-	size:30
-  }
-}).addTo(map);
-*/
 </script>
 </body>
 </html>
