@@ -94,7 +94,7 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 			<label>layer</label>
 			<select id="layer" class="form-control">
 				<option selected=""></option>
-				<option value="stop">stops: gtfs imported with pelias/transit</option>
+				<option value="stops">stops: gtfs imported with pelias/transit</option>
 				<option value="venue">venue: points of interest, businesses   </option>
 				<option value="address">address: places with a street address</option>
 				<option value="street">street:  streets,roads,highways</option>
@@ -272,9 +272,13 @@ L.control.centerCross({
 }).addTo(map);
 
 //REVERSE GEOCODING
+//https://github.com/pelias/documentation/blob/master/reverse.md
 map.on('click', function(e) {
 
 	var params = getParams(e.latlng);
+
+	params['size']=5;
+	params['boundary.circle.radius']=5;
 
 	resLayer.clearLayers();
 	
