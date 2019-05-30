@@ -35,13 +35,14 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 	overflow-y: auto;
 }
 #searchlist_wrap {
+	float: left;
 	position: relative;
 	z-index:2000;
 }
 #searchlist {
 	position: absolute;
 	left: 0;
-	top: 20px;
+	top: 34px;
 }
 .leaflet-container a.leaflet-popup-close-button {
 	font-size: 30px;
@@ -61,10 +62,13 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 	<h2>Testing Pelias Geocoder</h2>
 	<div class="row">
 		<form class="form-inline">
-		  <div class="col-md-5">
+		  <div class="col-md-6">
 
-			<input class="form-control" size="50" id="searchinput" type="text" placeholder="Search" />
-		  	
+			<div id="searchlist_wrap">
+				<input class="form-control" size="40" id="searchinput" type="text" placeholder="Search" />
+		  		<div id="searchlist" class="list-group"></div>
+			</div>
+
 		  	<select id="searchtype">
 		  		<option value="autocomplete" selected="">Autocomplete</option>
 		  		<option value="search">Search</option>
@@ -126,16 +130,10 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 
 <div class="row">
 	<div class="col-md-5">
-		<div id="searchlist_wrap">
-			<div id="searchlist" class="list-group">
-			  <!-- FILLED DYNAMICALLY -->
-			</div>
-		</div>
 	</div>
 	<div class="col-md-5">
 	</div>
 	<div class="col-md-5">
-		<a class="btn btn-link pull-right" href="polyline.html">TEST polylines</a>
 	</div>
 </div>      
 
@@ -221,10 +219,10 @@ function getParams(ll) {
 		params['focus.point.lon'] = cen.lng;
 	}
 	if($bounds.prop('checked')) {
-		params['boundary.rect.min_lon'] = bb.getSouth();
-		params['boundary.rect.max_lon'] = bb.getNorth();
-		params['boundary.rect.min_lat'] = bb.getWest();
-		params['boundary.rect.max_lat'] = bb.getEast();
+		params['boundary.rect.min_lon'] = bb.getWest();
+		params['boundary.rect.min_lat'] = bb.getSouth();
+		params['boundary.rect.max_lon'] = bb.getEast();
+		params['boundary.rect.max_lat'] = bb.getNorth();
 	}
 
 	return params;
@@ -295,6 +293,7 @@ map.on('click', function(e) {
 $('#searchlist').btsListFilter('#searchinput', {
 	loadingClass: 'loading',
 	sourceNode: function(data) {
+		console.log(data.properties)
 		var html = L.Util.template(
 			'<a class="list-group-item" href="#"><b>{label}</b>'+
 			'<small class="pull-right">{layer}, {source}</small>'+
