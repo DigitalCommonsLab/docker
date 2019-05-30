@@ -6,7 +6,6 @@
 
 <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.css">
-
 <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet-src.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.js"></script>
 <script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
@@ -293,11 +292,12 @@ map.on('click', function(e) {
 $('#searchlist').btsListFilter('#searchinput', {
 	loadingClass: 'loading',
 	sourceNode: function(data) {
-		console.log(data.properties)
+		console.log(data.properties);
+		let fields = _.extend({label:'',locality:'',region_a:'',layer:'',source:''}, data.properties);
 		var html = L.Util.template(
-			'<a class="list-group-item" href="#"><b>{label}</b>'+
-			'<small class="pull-right">{layer}, {source}</small>'+
-			'</a>', data.properties);
+			'<a class="list-group-item" href="#">{label}'+
+			'<small class="pull-right">{locality} {region_a} <i>[{layer}, {source}]</i></small>'+
+			'</a>', fields);
 		return $(html).data('f',data);
 	},
 	sourceData: function(text, callback) {
