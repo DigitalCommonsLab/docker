@@ -26,12 +26,10 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 	width: auto;
 }
 .prop {
-	font-size: 12px;
+	/*font-size: 12px;*/
 	line-height: 8px;
 	background: none;
 	border: none;
-	max-height: 200px;
-	overflow-y: auto;
 }
 #searchlist_wrap {
 	float: left;
@@ -61,10 +59,10 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 	<h2>Testing Pelias Geocoder</h2>
 	<div class="row">
 		<form class="form-inline">
-		  <div class="col-md-6">
+		  <div class="col-md-7">
 
 			<div id="searchlist_wrap">
-				<input class="form-control" size="40" id="searchinput" type="text" placeholder="Search" />
+				<input class="form-control" size="50" id="searchinput" type="text" placeholder="Search" />
 		  		<div id="searchlist" class="list-group"></div>
 			</div>
 
@@ -73,7 +71,7 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 		  		<option value="search">Search</option>
 		  	</select>
 
-			<div class="form-control">
+			<div class="form-control btn btn-warning">
 				<div class="checkbox">
 					<label>Focus point map center
 						<input id="focus" type="checkbox" name="" value="true">
@@ -81,7 +79,7 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 				</div>
 			</div>
 
-			<div class="form-control">
+			<div class="form-control btn btn-danger">
 				<div class="checkbox">
 					<label>Only in map Boundaries
 						<input id="bounds" type="checkbox" name="" value="true">
@@ -110,7 +108,7 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 			</select>
 		</div>
 
-		<div class="col-md-3">
+		<div class="col-md-2">
 			<!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
 			<label>source</label>
 			<select id="source" class="form-control">
@@ -137,11 +135,12 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 </div>      
 
 <div class="row">
-	<div class="col-md-8">
+	<div class="col-md-7">
+		<br />
 		<div id="map"></div>
 	</div>
-	<div class="col-md-4">
-		
+	<div class="col-md-5">
+		<div id="result"></div>
 	</div>
 </div>
 
@@ -173,17 +172,20 @@ window.center = [46.06608115549046, 11.154845952987673]
 var $layer = $('#layer'),
 	$source = $('#source'),
 	$focus = $('#focus'),
+	$result = $('#result'),
 	$bounds = $('#bounds'),
 	$search = $('#searchinput').focus(),
 	$searchtype = $('#searchtype');
 
-var baseLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+var baseLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 20,
+    maxNativeZoom: 18
+});
 
 var map = L.map('map', {
 	center: center,
 	zoom: 18,
 	minZoom: 5,
-	maxZoom: 18,
 	layers: baseLayer,
 	//layers: L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {maxZoom: 17}),
 	//scrollWheelZoom: false
@@ -228,7 +230,9 @@ function getParams(ll) {
 }
 
 function propToHtml(p) {
-	return '<pre class="prop">'+JSON.stringify(p,null,"\n",4)+'</pre>';
+	p = JSON.stringify(p,null,"\n",4)
+		.replace(/[\{\}"]/g,'')
+	return '<pre class="prop">'+p+'</pre>';
 }
 
 var resLayer = L.geoJson([], {
@@ -242,27 +246,31 @@ var resLayer = L.geoJson([], {
 	pointToLayer: function(f,ll) {
 		var r = 20-(1000*f.properties.distance);
 		return L.circleMarker(ll, {
-			radius: 4//Math.max(r, 4)
+			radius: 10//Math.max(r, 4)
+		})
+		.on('mouseover', function(e) {
+			this.setStyle({color:'blue'})
+		})
+		.on('mouseout', function(e) {
+			this.setStyle({color:'red'})
 		});
 	},
 	onEachFeature: function(f, l) {
 		
-		var html = '<h3>'+(f.properties.name||'unamed')+'</h3>'+
-			propToHtml(f.properties);
+		var name = f.properties.name||'unamed';
 
-		l.bindPopup(html, {
-			autoPan:false,
-			maxWidth:600
-		}).on('mouseover', function (e) {
-            this.openPopup();
-        })
-        /*.on('mouseout', function (e) {
-            this.closePopup();
-        })*/
+		l.bindTooltip(name,{permanent:true})
         .on('add', function(e) {
 
-		  this.openPopup();
+		  this.openTooltip();
 		})
+		.on('tooltipopen', function (e) {
+           $result.html(propToHtml(f.properties));
+        })
+        .on('click', function(e) {
+        	L.DomEvent.stopPropagation(e)
+        	$result.html(propToHtml(f.properties));	
+        })
 	}
 }).addTo(map);
 
@@ -288,7 +296,12 @@ map.on('click', function(e) {
 		res.features.reverse();
 		resLayer.addData(res);
 		resLayer.eachLayer(function(l) {
-			L.polyline([m.getLatLng(), l.getLatLng()],{color:'red'}).addTo(resLayer)
+			L.polyline([m.getLatLng(), l.getLatLng()],{
+				color:'red',
+				dashArray: "4,6"
+			})
+			.addTo(resLayer)
+			.bringToBack()
 		});
 	});
 });
@@ -296,7 +309,6 @@ map.on('click', function(e) {
 $('#searchlist').btsListFilter('#searchinput', {
 	loadingClass: 'loading',
 	sourceNode: function(data) {
-		console.log(data.properties);
 		let fields = _.extend({label:'',locality:'',region_a:'',layer:'',source:''}, data.properties);
 		var html = L.Util.template(
 			'<a class="list-group-item" href="#">{label}'+
