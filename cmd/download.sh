@@ -9,6 +9,7 @@ function download_geonames(){ compose_run 'geonames' './bin/download'; }
 function download_tiger(){ compose_run 'interpolation' './bin/download-tiger'; }
 function download_transit(){ compose_run 'transit' './bin/download'; }
 function download_csv(){ compose_run 'csv-importer' './bin/download'; }
+function download_trentino(){ compose_run 'trentino-data' './bin/download.sh'; }
 
 register 'download' 'wof' '(re)download whosonfirst data' download_wof
 register 'download' 'oa' '(re)download openaddresses data' download_oa
@@ -17,12 +18,14 @@ register 'download' 'geonames' '(re)download geonames data' download_geonames
 register 'download' 'tiger' '(re)download TIGER data' download_tiger
 register 'download' 'transit' '(re)download transit data' download_transit
 register 'download' 'csv' '(re)download csv data' download_csv
+register 'download' 'trentino' '(re)download trentino data' download_trentino
 
 # download all the data to be used by imports
 function download_all(){
   download_wof &
   download_oa &
   download_osm &
+  download_trentino &
 
   if [[ "$ENABLE_GEONAMES" == "true" ]]; then
     download_geonames &
