@@ -140,9 +140,9 @@ services:
     volumes:
       - "./pelias.json:/code/pelias.json"
       - "./test_cases:/code/pelias/fuzzy-tester/test_cases"
-  trentino-data:
-    image: stefcud/trentino-data:latest
-    container_name: trentino_data
+  trentino-opendata:
+    image: stefcud/trentino-opendata:latest
+    container_name: trentino_opendata
     user: "${DOCKER_USER}"
     volumes:
       - "${DATA_DIR}:/data"

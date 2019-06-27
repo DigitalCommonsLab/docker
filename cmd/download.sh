@@ -9,7 +9,7 @@ function download_geonames(){ compose_run 'geonames' './bin/download'; }
 function download_tiger(){ compose_run 'interpolation' './bin/download-tiger'; }
 function download_transit(){ compose_run 'transit' './bin/download'; }
 function download_csv(){ compose_run 'csv-importer' './bin/download'; }
-function download_trentino(){ compose_run 'trentino-data' './bin/download.sh'; }
+function download_trentino(){ compose_run 'trentino-opendata' './bin/download'; }
 
 register 'download' 'wof' '(re)download whosonfirst data' download_wof
 register 'download' 'oa' '(re)download openaddresses data' download_oa
