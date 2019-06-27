@@ -20,18 +20,25 @@ PELIAS_CONFIG=/var/www/pelias/docker/projects/italy-trentino/pelias.json
 To run a complete build configure and execute the script *build.sh*
 or the following commands separately:
 
+first time or reset database
 ```bash
 pelias compose pull
 pelias elastic start
 pelias elastic wait
 pelias elastic create
+```
+
+```bash
 pelias download all
 pelias prepare all
+```
+
+```bash
 pelias import all
 pelias compose up
 ```
 
-## API CONFIGI
+## API CONFIG
 
 defaults values:
 https://github.com/pelias/config/blob/master/config/defaults.json
