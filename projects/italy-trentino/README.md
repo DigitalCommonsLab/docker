@@ -28,9 +28,12 @@ pelias elastic wait
 pelias elastic create
 ```
 
+Download and import Trentino Opendata House Numbers
 ```bash
-pelias download all
-pelias prepare all
+pelias download trentino
+pelias prepare trentino
+pelias prepare openaddresses
+pelias import openaddresses
 ```
 
 ```bash

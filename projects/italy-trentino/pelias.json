@@ -57,6 +57,14 @@
     "adminLookup": {
       "enabled": true
     },
+    "whosonfirst": {
+      "datapath": "/data/whosonfirst",
+      "importVenues": false,
+      "importPostalcodes": true,
+      "importPlace": [
+        "85685277"
+      ]
+    },
     "openstreetmap": {
       "leveldbpath": "/tmp",
       "datapath": "/data/openstreetmap",
@@ -65,6 +73,14 @@
           "filename": "trentino-alto-adige.osm.pbf"
         }
       ]
+    },
+    "polyline": {
+      "datapath": "/data/polylines",
+      "files": [ "extract.0sv" ]
+    },
+    "openaddresses": {
+      "datapath": "/data/openaddresses",
+      "files": ["trento_civici.csv","rovereto_civici.csv"]
     },
     "transit": {
       "datapath": "/data/transit",
@@ -78,22 +94,6 @@
           "layerName": "stop"
         }
       ]
-    },
-    "openaddresses": {
-      "datapath": "/data/openaddresses",
-      "files": ["trento_civici.csv","rovereto_civici.csv"]
-    },
-    "whosonfirst": {
-      "datapath": "/data/whosonfirst",
-      "importVenues": false,
-      "importPostalcodes": true,
-      "importPlace": [
-        "85685277"
-      ]
-    },
-    "polyline": {
-      "datapath": "/data/polylines",
-      "files": [ "extract.0sv" ]
     }
   }
 }
