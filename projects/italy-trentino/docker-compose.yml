@@ -146,4 +146,5 @@ services:
     user: "${DOCKER_USER}"
     volumes:
       - "${DATA_DIR}:/data"
+      - "/tmp:/tmp"
       - "./download.conf:/code/download.conf"
