@@ -11,6 +11,7 @@ function prepare_placeholder(){
 }
 
 register 'prepare' 'polylines' 'export road network from openstreetmap into polylines format' prepare_polylines
+register 'prepare' 'trentino' 'export road network from trentino into openaddresses format' prepare_trentino
 register 'prepare' 'interpolation' 'build interpolation sqlite databases' prepare_interpolation
 register 'prepare' 'placeholder' 'build placeholder sqlite databases' prepare_placeholder
 
