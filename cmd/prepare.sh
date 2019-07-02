@@ -3,7 +3,7 @@ set -e;
 
 # per-source prepares
 function prepare_polylines(){ compose_run 'polylines' bash ./docker_extract.sh; }
-function prepare_trentino(){ compose_run 'trentino-opendata' bash ./bin/prepare.sh; }
+function prepare_trentino(){ compose_run 'trentino-opendata' bash ./bin/prepare; }
 function prepare_interpolation(){ compose_run 'interpolation' bash ./docker_build.sh; }
 function prepare_placeholder(){
   compose_run 'placeholder' ./cmd/extract.sh;
