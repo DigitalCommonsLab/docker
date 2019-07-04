@@ -29,20 +29,25 @@ pelias elastic wait
 pelias elastic create
 ```
 
-Download and import Global Data and Trentino Opendata
+Download data, firstime or update
 ```bash
 pelias download wof
 pelias download osm
 pelias download transit
 pelias download trentino
+```
+
+Import data
+```bash
 pelias prepare trentino
-pelias prepare polylines #if you want use street names by osm
+pelias prepare polylines
 pelias prepare interpolation
 pelias prepare placeholder
-pelias import wof
+#pelias import wof cause error
 pelias import osm
 pelias import transit
-pelias import oa 	#import trentino data
+pelias import oa
+pelias import polylines
 ```
 
 first time
