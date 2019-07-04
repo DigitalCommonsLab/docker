@@ -20,7 +20,7 @@ PELIAS_CONFIG=/var/www/pelias/docker/projects/italy-trentino/pelias.json
 To run a complete build configure and execute the script *build.sh*
 or the following commands separately:
 
-first time or reset database
+first time setup or reset database
 ```bash
 pelias compose pull
 pelias elastic start
@@ -29,7 +29,7 @@ pelias elastic wait
 pelias elastic create
 ```
 
-Download and import Trentino Opendata House Numbers
+Download and import Global Data and Trentino Opendata
 ```bash
 pelias download wof
 pelias download osm
@@ -45,8 +45,8 @@ pelias import transit
 pelias import oa 	#import trentino data
 ```
 
+first time
 ```bash
-pelias import all
 pelias compose up
 ```
 
