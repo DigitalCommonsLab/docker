@@ -141,10 +141,9 @@ services:
       - "./pelias.json:/code/pelias.json"
       - "./test_cases:/code/pelias/fuzzy-tester/test_cases"
   trentino-opendata:
-    image: stefcud/pelias-importer-trentino-opendata:master
+    image: stefcud/pelias-importer-trentino-opendata:1.0.2
     container_name: trentino_opendata
     user: "${DOCKER_USER}"
     volumes:
       - "${DATA_DIR}:/data"
-      - "/tmp:/tmp"
       - "./download.conf:/code/download.conf"
