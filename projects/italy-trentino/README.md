@@ -25,7 +25,7 @@ first time or reset database
 pelias compose pull
 pelias elastic start
 pelias elastic wait
-#pelias elastic drop
+#pelias elastic drop if you want reset data
 pelias elastic create
 ```
 
@@ -33,13 +33,16 @@ Download and import Trentino Opendata House Numbers
 ```bash
 pelias download wof
 pelias download osm
-#pelias download trentino
+pelias download transit
 pelias download trentino
 pelias prepare trentino
-#pelias prepare polylines #if you want use street by osm
+pelias prepare polylines #if you want use street names by osm
 pelias prepare interpolation
 pelias prepare placeholder
-pelias import all
+pelias import wof
+pelias import osm
+pelias import transit
+pelias import oa 	#import trentino data
 ```
 
 ```bash
