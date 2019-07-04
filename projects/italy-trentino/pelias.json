@@ -65,12 +65,17 @@
         "85685277"
       ]
     },
-    "openstreetmap": {
+	"openstreetmap": {
+      "download": [
+        {
+          "sourceURL": "http://geodati.fmach.it/gfoss_geodata/osm/output_osm_regioni/trentino-alto-adige.pbf"
+        }
+      ],
       "leveldbpath": "/tmp",
       "datapath": "/data/openstreetmap",
       "import": [
         {
-          "filename": "trentino-alto-adige.osm.pbf"
+          "filename": "trentino-alto-adige_osm.osm.pbf"
         }
       ]
     },
