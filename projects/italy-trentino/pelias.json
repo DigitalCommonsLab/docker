@@ -75,7 +75,7 @@
       "datapath": "/data/openstreetmap",
       "import": [
         {
-          "filename": "trentino-alto-adige_osm.osm.pbf"
+          "filename": "trentino-alto-adige.pbf"
         }
       ]
     },
