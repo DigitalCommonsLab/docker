@@ -45,7 +45,7 @@ pelias prepare interpolation
 pelias prepare placeholder
 #pelias import wof cause error
 pelias import osm
-pelias import transit
+#pelias import transit invalid quote
 pelias import oa
 pelias import polylines
 ```
