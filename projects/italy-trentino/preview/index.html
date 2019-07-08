@@ -309,10 +309,10 @@ map.on('click', function(e) {
 $('#searchlist').btsListFilter('#searchinput', {
 	loadingClass: 'loading',
 	sourceNode: function(data) {
-		let fields = _.extend({label:'',locality:'',region_a:'',layer:'',source:''}, data.properties);
+		let fields = _.extend({label:'',localadmin:'',region_a:'',layer:'',source:''}, data.properties);
 		var html = L.Util.template(
 			'<a class="list-group-item" href="#">{label}'+
-			'<small class="pull-right">{locality} {region_a} <i>[{layer}, {source}]</i></small>'+
+			'<small class="pull-right">{localadmin} {region_a} <i>[{layer}, {source}]</i></small>'+
 			'</a>', fields);
 		return $(html).data('f',data);
 	},
