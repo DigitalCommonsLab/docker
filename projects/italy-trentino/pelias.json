@@ -57,14 +57,35 @@
     "adminLookup": {
       "enabled": true
     },
-    "openstreetmap": {
+    "whosonfirst": {
+      "datapath": "/data/whosonfirst",
+      "importVenues": false,
+      "importPostalcodes": true,
+      "importPlace": [
+        "85685277"
+      ]
+    },
+	"openstreetmap": {
+      "download": [
+        {
+          "sourceURL": "http://geodati.fmach.it/gfoss_geodata/osm/output_osm_regioni/trentino-alto-adige.pbf"
+        }
+      ],
       "leveldbpath": "/tmp",
       "datapath": "/data/openstreetmap",
       "import": [
         {
-          "filename": "trentino-alto-adige.osm.pbf"
+          "filename": "trentino-alto-adige.pbf"
         }
       ]
+    },
+    "polyline": {
+      "datapath": "/data/polylines",
+      "files": [ "extract.0sv" ]
+    },
+    "openaddresses": {
+      "datapath": "/data/openaddresses",
+      "files": ["trento_civici.csv","rovereto_civici.csv"]
     },
     "transit": {
       "datapath": "/data/transit",
@@ -78,22 +99,6 @@
           "layerName": "stop"
         }
       ]
-    },
-    "openaddresses": {
-      "datapath": "/data/openaddresses",
-      "files": ["trento_civici_strade.csv"]
-    },
-    "whosonfirst": {
-      "datapath": "/data/whosonfirst",
-      "importVenues": false,
-      "importPostalcodes": true,
-      "importPlace": [
-        "85685277"
-      ]
-    },
-    "polyline": {
-      "datapath": "/data/polylines",
-      "files": [ "extract.0sv" ]
     }
   }
 }

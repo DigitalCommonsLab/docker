@@ -20,18 +20,42 @@ PELIAS_CONFIG=/var/www/pelias/docker/projects/italy-trentino/pelias.json
 To run a complete build configure and execute the script *build.sh*
 or the following commands separately:
 
+first time setup or reset database
 ```bash
 pelias compose pull
 pelias elastic start
 pelias elastic wait
+#pelias elastic drop if you want reset data
 pelias elastic create
-pelias download all
-pelias prepare all
-pelias import all
+```
+
+Download data, firstime or update
+```bash
+pelias download wof
+pelias download osm
+pelias download transit
+pelias download trentino
+```
+
+Import data
+```bash
+pelias prepare trentino
+pelias prepare polylines
+pelias prepare interpolation
+pelias prepare placeholder
+#pelias import wof cause error
+pelias import osm
+#pelias import transit invalid quote
+pelias import oa
+pelias import polylines
+```
+
+first time
+```bash
 pelias compose up
 ```
 
-## API CONFIGI
+## API CONFIG
 
 defaults values:
 https://github.com/pelias/config/blob/master/config/defaults.json
