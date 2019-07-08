@@ -13,12 +13,11 @@
 <script src="https://unpkg.com/bootstrap-list-filter@0.3.3/bootstrap-list-filter.src.js"></script>
 <script src="https://unpkg.com/underscore@1.9.1/underscore.js"></script>
 <script src="https://unpkg.com/leaflet-center-cross@0.0.8/dist/leaflet.CenterCross.js"></script>
-<script type="text/javascript">
-
+<script>
 //Entry point to connect Pelias
 //
-window.baseUrl = 'http://'+location.hostname+':4000/v1';
-
+//window.baseUrl = 'http://'+location.hostname+':4000/v1';
+window.baseUrl = 'http://65.52.155.132:4000/v1';
 </script>
 <style>
 #map {
@@ -56,7 +55,7 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 </head>
 <body>
   <div class="container-fluid">
-	<h2>Testing Pelias Geocoder</h2>
+	<h2 id="tit">Testing Pelias Geocoder <small></small></h2>
 	<div class="row">
 		<form class="form-inline">
 		  <div class="col-md-7">
@@ -165,6 +164,8 @@ window.baseUrl = 'http://'+location.hostname+':4000/v1';
 <script>
 
 window.baseUrl = window.baseUrl || 'http://localhost:4000/v1';
+
+$('#tit').find('small').html('<a href="'+window.baseUrl+'">api '+window.baseUrl+'</a>');
 
 //window.center = [46.063442205135935, 11.156744956970217]
 window.center = [46.06608115549046, 11.154845952987673]
