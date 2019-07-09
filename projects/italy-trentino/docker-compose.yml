@@ -148,3 +148,9 @@ services:
     volumes:
       - "${DATA_DIR}:/data"
 #      - "./download.conf:/code/download.conf"
+  trentino-opendata-test:
+   image: nginx
+   container_name: trentino_opendata_test
+   ports: [ "80:80" ]
+   volumes:
+     - "./preview/index.html:/usr/share/nginx/html/index.html"
