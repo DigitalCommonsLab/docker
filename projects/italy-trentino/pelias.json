@@ -38,6 +38,18 @@
       "focus.point.lat": 46.063442,
       "focus.point.lon": 11.156744
     },
+    "customBoosts": {
+      "layer": {
+      	"street": 1,
+        "address": 3
+      },
+      "source": {
+        "transit": 1,
+        "openstreetmap": 1,
+        "openaddresses": 3,
+        "whosonfirst":1
+      }
+    },
     "services": {
       "placeholder": {
         "url": "http://placeholder:4100"
@@ -75,7 +87,7 @@
       "datapath": "/data/openstreetmap",
       "import": [
         {
-          "filename": "trentino-alto-adige.pbf"
+          "filename": "trentino-alto-adige.osm.pbf"
         }
       ]
     },
@@ -85,7 +97,7 @@
     },
     "openaddresses": {
       "datapath": "/data/openaddresses",
-      "files": ["trento_civici_alfa.csv","rovereto_civici.csv"]
+      "files": ["trento_civici.csv","rovereto_civici.csv"]
     },
     "transit": {
       "datapath": "/data/transit",
