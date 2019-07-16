@@ -85,7 +85,7 @@
     },
     "openaddresses": {
       "datapath": "/data/openaddresses",
-      "files": ["trento_civici_alfa.csv","rovereto_civici.csv"]
+      "files": ["trento_civici_alfa.csv","rovereto_civici.csv","storo_civici.csv"]
     },
     "transit": {
       "datapath": "/data/transit",
