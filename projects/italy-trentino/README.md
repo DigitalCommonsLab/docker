@@ -40,6 +40,7 @@ pelias download trentino
 Import data
 ```bash
 pelias prepare trentino
+#
 pelias prepare polylines
 pelias prepare interpolation
 pelias prepare placeholder

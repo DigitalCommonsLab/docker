@@ -70,6 +70,12 @@ window.baseUrl = 'http://'+host+'/v1';
 		  		<option value="autocomplete" selected="">Autocomplete</option>
 		  		<option value="search">Search</option>
 		  	</select>
+			<select id="lang">
+		  		<option value="" selected="">default</option>
+		  		<option value="en-EN">Eng</option>
+		  		<option value="en-US">Eng US</option>
+		  		<option value="it-IT">Ita</option>
+		  	</select>
 
 			<div class="form-control btn btn-warning">
 				<div class="checkbox">
@@ -171,7 +177,8 @@ $('#tit').find('small').html('<a href="'+window.baseUrl+'">api '+window.baseUrl+
 //window.center = [46.063442205135935, 11.156744956970217]
 window.center = [46.06608115549046, 11.154845952987673]
 
-var $layer = $('#layer'),
+var $lang = $('#lang'),
+	$layer = $('#layer'),
 	$source = $('#source'),
 	$focus = $('#focus'),
 	$result = $('#result'),
@@ -207,6 +214,9 @@ function getParams(ll) {
 		cen = map.getCenter(),
 		bb = map.getBounds();
 
+	if($lang.val()) {
+		params['lang'] = $lang.val();
+	}
 	if($layer.val()) {
 		params['layers'] = $layer.val();
 	}
