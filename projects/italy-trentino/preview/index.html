@@ -247,6 +247,13 @@ function propToHtml(p) {
 	return '<pre class="prop">'+p+'</pre>';
 }
 
+function reformatLabel(d) {
+	if( d.layer==='address' &&
+		d.housenumber &&
+		d.street )
+	return d.label.replace(d.housenumber+' '+d.street, d.street+' '+d.housenumber);
+}
+
 var resLayer = L.geoJson([], {
 	style: function(f) {
 		return {
@@ -321,7 +328,13 @@ map.on('click', function(e) {
 $('#searchlist').btsListFilter('#searchinput', {
 	loadingClass: 'loading',
 	sourceNode: function(data) {
-		let fields = _.extend({label:'',localadmin:'',region_a:'',layer:'',source:''}, data.properties);
+
+		data.properties.label = reformatLabel(data.properties);
+
+		let fields = _.extend({
+			label:'',localadmin:'',region_a:'',layer:'',source:''
+		}, data.properties);
+
 		var html = L.Util.template(
 			'<a class="list-group-item" href="#">{label}'+
 			'<small class="pull-right">{localadmin} {region_a} <i>[{layer}, {source}]</i></small>'+
