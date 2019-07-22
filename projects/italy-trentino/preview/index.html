@@ -67,8 +67,8 @@ window.baseUrl = 'http://'+host+'/v1';
 			</div>
 
 		  	<select id="searchtype">
-		  		<option value="autocomplete" selected="">Autocomplete</option>
-		  		<option value="search">Search</option>
+				<option value="search" selected="">Search</option>		  		
+		  		<option value="autocomplete">Autocomplete</option>
 		  	</select>
 			<select id="lang">
 		  		<option value="" selected="">default</option>
@@ -248,10 +248,20 @@ function propToHtml(p) {
 }
 
 function reformatLabel(d) {
-	if( d.layer==='address' &&
-		d.housenumber &&
-		d.street )
-	return d.label.replace(d.housenumber+' '+d.street, d.street+' '+d.housenumber);
+	
+	var label = d.label;
+
+	if( d.layer==='address' && d.housenumber && d.street ) {
+		if(d.label)
+			label = d.label.replace(
+				d.housenumber+' '+d.street,
+				d.street+' '+d.housenumber
+			);
+		else
+			label = d.street+' '+d.housenumber+' '+d.localadmin+' '+d.region_a;
+
+	}
+	return label;
 }
 
 var resLayer = L.geoJson([], {
@@ -332,12 +342,20 @@ $('#searchlist').btsListFilter('#searchinput', {
 		data.properties.label = reformatLabel(data.properties);
 
 		let fields = _.extend({
-			label:'',localadmin:'',region_a:'',layer:'',source:''
+			label: '',
+			localadmin: '',
+			region_a: '',
+			layer: '',
+			source: ''
 		}, data.properties);
 
+console.log(fields)
+
 		var html = L.Util.template(
-			'<a class="list-group-item" href="#">{label}'+
-			'<small class="pull-right">{localadmin} {region_a} <i>[{layer}, {source}]</i></small>'+
+			'<a class="list-group-item clearfix" href="#">'+
+				'<b class="pull-left">{label}</b>'+
+				'&nbsp;&nbsp;'+
+				'<i class="pull-right">{localadmin} {region_a} <i>[{layer}, {source}]</i></i>'+
 			'</a>', fields);
 		return $(html).data('f',data);
 	},
