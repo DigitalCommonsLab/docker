@@ -2,8 +2,9 @@
 # Trentino geocoder
 This project is configured to download/prepare/build a complete Pelias installation for Trentino Alto Adige in Italy
 Include a importer for Open Data of Trentino Alto Adige:
-
 https://github.com/DigitalCommonsLab/pelias-importer-trentino-opendata
+
+used as service in the [docker-compose.yml](https://github.com/DigitalCommonsLab/docker-pelias-geocoder/blob/master/projects/italy-trentino/docker-compose.yml#L143)
 
 # Setup
 Please refer to the instructions at https://github.com/pelias/docker in order to install and configure your docker environment.
