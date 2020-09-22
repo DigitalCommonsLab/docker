@@ -40,6 +40,11 @@ You will need to have a [modern version of `docker`](https://docs.docker.com/eng
 
 This project supports Linux and Mac OSX operatings systems. Windows is currently [not supported](https://github.com/pelias/docker/issues/124).
 
+## Requirements for Linux
+- Install `util-linux` using your distribution's package manager
+  - Alpine Linux: `sudo apk add util-linux`
+  - Debian/Ubuntu: `sudo apt-get install util-linux` 
+
 ## Requirements for Mac OSX
 - install GNU coreutils with [Homebrew](https://brew.sh/): `brew install coreutils`.
 - Max-out Docker computing resources( `Memory-RAM and CPUs-Cores` ) dedicated to Docker in `Docker > Preferences > Advanced`.
@@ -49,6 +54,18 @@ This project supports Linux and Mac OSX operatings systems. Windows is currently
 Scripts can easily download tens of GB of geographic data, so ensure you have enough free disk space!
 
 At least 8GB RAM is required.
+
+## How long will it take?
+
+You should be able to get started with the default Portland-metro area build in under an hour with a fast internet connection.
+
+On a machine with ~32 CPU cores, a full planet build can be done in under a day with the right settings.
+
+The interpolation build (`pelias prepare interpolation`), which is [single threaded](https://github.com/pelias/interpolation/issues/264) will take 6+ days
+for the full planet. We generally recommend skipping it when you are first
+getting started.
+
+For more info on time estimates and hardware requirements for large build see our [full planet considerations](https://github.com/pelias/documentation/blob/master/full_planet_considerations.md) documentation.
 
 ## Quickstart build script
 
