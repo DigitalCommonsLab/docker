@@ -110,7 +110,8 @@ services:
       - "./pelias.json:/code/pelias.json"
       - "${DATA_DIR}:/data"
   elasticsearch:
-    image: pelias/elasticsearch:5.6.12
+    #image: pelias/elasticsearch:5.6.12
+    image: pelias/elasticsearch:7.5.1
     container_name: pelias_elasticsearch
     user: "${DOCKER_USER}"
     restart: always
@@ -131,26 +132,22 @@ services:
         "http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization",
         "http.cors.allow-credentials=true"
       ]
-  fuzzy-tester:
-    image: pelias/fuzzy-tester:master
-    container_name: pelias_fuzzy_tester
-    user: "${DOCKER_USER}"
-    restart: "no"
-    command: "--help"
-    volumes:
-      - "./pelias.json:/code/pelias.json"
-      - "./test_cases:/code/pelias/fuzzy-tester/test_cases"
+
   trentino-opendata:
     image: stefcud/pelias-importer-trentino-opendata:master
     container_name: trentino_opendata
     user: "${DOCKER_USER}"
-    #environment: [ "DATA_DIR=${DATA_DIR}" ]
+    environment:
+      - CSV_TO_POLYLINE=False
+      #generate polylines from csv data
+      #TODO create code to overlapping roads osm/csv
     volumes:
       - "${DATA_DIR}:/data"
-#      - "./download.conf:/code/download.conf"
+      - "/home/z4k/pelias/pelias-importer-trentino-opendata/bin/csv2polyline.js:/code/bin/csv2polyline.js"
+
   trentino-opendata-test:
    image: nginx
    container_name: trentino_opendata_test
-   ports: [ "80:80" ]
+   ports: [ "8080:80" ]
    volumes:
      - "./preview/index.html:/usr/share/nginx/html/index.html"

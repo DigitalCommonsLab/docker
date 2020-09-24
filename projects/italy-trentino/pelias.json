@@ -5,7 +5,7 @@
     "colorize": true
   },
   "esclient": {
-    "apiVersion": "5.6",
+    "apiVersion": "7.5",
     "hosts": [
       {
         "host": "elasticsearch"
@@ -29,9 +29,17 @@
   "api": {
     "textAnalyzer": "libpostal",
     "targets": {
-      "canonical_sources": ["transit","whosonfirst", "openstreetmap", "openaddresses", "geonames"],
+      "canonical_sources": [
+        "transit",
+        "whosonfirst",
+        "openstreetmap",
+        "openaddresses",
+        "geonames"
+      ],
       "layers_by_source": {
-        "transit": ["stops"]
+        "transit": [
+          "stops"
+        ]
       }
     },
     "defaultParameters": {
@@ -40,14 +48,14 @@
     },
     "customBoosts": {
       "layer": {
-      	"street": 1,
+        "street": 1,
         "address": 3
       },
       "source": {
         "transit": 1,
         "openstreetmap": 1,
         "openaddresses": 3,
-        "whosonfirst":1
+        "whosonfirst": 1
       }
     },
     "services": {
@@ -71,13 +79,13 @@
     },
     "whosonfirst": {
       "datapath": "/data/whosonfirst",
-      "importVenues": false,
       "importPostalcodes": true,
+      "countryCode": "IT",      
       "importPlace": [
         "85685277"
       ]
     },
-	"openstreetmap": {
+    "openstreetmap": {
       "download": [
         {
           "sourceURL": "http://geodati.fmach.it/gfoss_geodata/osm/output_osm_regioni/trentino-alto-adige.pbf"
@@ -85,6 +93,7 @@
       ],
       "leveldbpath": "/tmp",
       "datapath": "/data/openstreetmap",
+      "importVenues": true,
       "import": [
         {
           "filename": "trentino-alto-adige.osm.pbf"
@@ -93,11 +102,17 @@
     },
     "polyline": {
       "datapath": "/data/polylines",
-      "files": [ "extract.0sv" ]
+      "files": [
+        "extract.0sv"
+      ]
     },
     "openaddresses": {
       "datapath": "/data/openaddresses",
-      "files": ["trento_civici.csv","rovereto_civici.csv","storo_civici.csv"]
+      "files": [
+        "trento_civici.csv",
+        "rovereto_civici.csv",
+        "storo_civici.csv"
+      ]
     },
     "transit": {
       "datapath": "/data/transit",

@@ -65,18 +65,20 @@ window.baseUrl = 'http://'+host+'/v1';
 				<input class="form-control" size="50" id="searchinput" type="text" placeholder="Search" />
 		  		<div id="searchlist" class="list-group"></div>
 			</div>
-
+		
+			<label>&nbsp;Input Type
 		  	<select id="searchtype">
 				<option value="search" selected="">Search</option>		  		
 		  		<option value="autocomplete">Autocomplete</option>
-		  	</select>
+		  	</select></label>
+			<label>&nbsp;Language
 			<select id="lang">
 		  		<option value="" selected="">default</option>
 		  		<option value="en-EN">Eng</option>
 		  		<option value="en-US">Eng US</option>
 		  		<option value="it-IT">Ita</option>
-		  	</select>
-
+		  	</select></label>
+		  
 			<div class="form-control btn btn-warning">
 				<div class="checkbox">
 					<label>Focus point map center
@@ -116,7 +118,7 @@ window.baseUrl = 'http://'+host+'/v1';
 
 		<div class="col-md-2">
 			<!-- https://github.com/pelias/config/blob/master/config/defaults.json -->
-			<label>source</label>
+			<label>datasource</label>
 			<select id="source" class="form-control">
 			<option selected=""></option>
 			<option value="csv">csv files</option>
@@ -339,7 +341,7 @@ $('#searchlist').btsListFilter('#searchinput', {
 	loadingClass: 'loading',
 	sourceNode: function(data) {
 
-		data.properties.label = reformatLabel(data.properties);
+		//data.properties.label = reformatLabel(data.properties);
 
 		let fields = _.extend({
 			label: '',
@@ -349,13 +351,11 @@ $('#searchlist').btsListFilter('#searchinput', {
 			source: ''
 		}, data.properties);
 
-console.log(fields)
-
 		var html = L.Util.template(
 			'<a class="list-group-item clearfix" href="#">'+
 				'<b class="pull-left">{label}</b>'+
 				'&nbsp;&nbsp;'+
-				'<i class="pull-right">{localadmin} {region_a} <i>[{layer}, {source}]</i></i>'+
+				'<small class="pull-right">{localadmin} {region_a} <i>[{layer}, {source}]</i></small>'+
 			'</a>', fields);
 		return $(html).data('f',data);
 	},
