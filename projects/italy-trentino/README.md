@@ -41,6 +41,15 @@ pelias download transit
 pelias download trentino
 ```
 
+because of this:
+https://github.com/pelias/openstreetmap/issues/542
+
+at this step run:
+```bash
+cd /data/openstreetmap/
+mv trentino-alto-adige.pbf trentino-alto-adige.osm.pbf
+```
+
 Import data
 ```bash
 pelias prepare trentino
