@@ -16,20 +16,31 @@
 <script>
 //Entry point to connect Pelias
 //
-var host = location.hostname+':4000';
-window.baseUrl = 'http://'+host+'/v1';
+var port = 4000,
+	host = location.hostname;
+
+window.baseUrl = 'http://'+host+':'+port+'/v1';
 
 </script>
 <style>
+body {
+	background: #bcb
+}
 #map {
 	height: 700px;
 	width: auto;
 }
-.prop {
-	/*font-size: 12px;*/
+pre {
+	box-shadow: 0 0 15px rgba(0,0,0,0.5);
 	line-height: 8px;
-	background: none;
+	background: white;
 	border: none;
+	position: fixed;
+	z-index: 2000;
+	height: auto;
+	bottom: 0;
+	right: 5px;
+	overflow-y: hidden;
 }
 #searchlist_wrap {
 	float: left;
@@ -56,45 +67,55 @@ window.baseUrl = 'http://'+host+'/v1';
 </head>
 <body>
   <div class="container-fluid">
-	<h2 id="tit">Testing Pelias Geocoder <small></small></h2>
+	<h3 id="tit">Testing Pelias Geocoder <small></small></h3>
 	<div class="row">
-		<form class="form-inline">
-		  <div class="col-md-7">
+		
+		<div class="col-md-10">
 
 			<div id="searchlist_wrap">
-				<input class="form-control" size="50" id="searchinput" type="text" placeholder="Search" />
+				<input class="form-control" size="35" id="searchinput" type="text" placeholder="Search" />
 		  		<div id="searchlist" class="list-group"></div>
 			</div>
-		
-			<label>&nbsp;Input Type
-		  	<select id="searchtype">
-				<option value="search" selected="">Search</option>		  		
-		  		<option value="autocomplete">Autocomplete</option>
-		  	</select></label>
-			<label>&nbsp;Language
-			<select id="lang">
-		  		<option value="" selected="">default</option>
-		  		<option value="en-EN">Eng</option>
-		  		<option value="en-US">Eng US</option>
-		  		<option value="it-IT">Ita</option>
-		  	</select></label>
-		  
-			<div class="form-control btn btn-warning">
-				<div class="checkbox">
-					<label>Focus point map center
-						<input id="focus" type="checkbox" name="" value="true">
-					</label>
-				</div>
-			</div>
-
-			<div class="form-control btn btn-danger">
-				<div class="checkbox">
-					<label>Only in map Boundaries
-						<input id="bounds" type="checkbox" name="" value="true">
-					</label>
-				</div>
-			</div>
 		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+
+			<form class="form-inline">
+				<label>&nbsp;Input Type
+					<select id="searchtype">
+					<option value="search" selected="">Search</option>		  		
+						<option value="autocomplete">Autocomplete</option>
+					</select></label>
+				<label>&nbsp;Language
+				<select id="lang">
+						<option value="" selected="">default</option>
+						<option value="en-EN">Eng</option>
+						<option value="en-US">Eng US</option>
+						<option value="it-IT">Ita</option>
+					</select></label>
+
+				<div class="form-control btn">
+					<div class="checkbox">
+						<label>Focus point map center
+							<input id="focus" type="checkbox" name="" value="true">
+						</label>
+					</div>
+				</div>
+
+				<div class="form-control btn">
+					<div class="checkbox">
+						<label>Only in map Boundaries
+							<input id="bounds" type="checkbox" name="" value="true">
+						</label>
+					</div>
+				</div>
+
+			</form>
+
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-md-3">
 			<!-- layers values https://github.com/pelias/documentation/blob/master/autocomplete.md#layers -->
 			<label>layer</label>
@@ -129,7 +150,6 @@ window.baseUrl = 'http://'+host+'/v1';
 			<option value="transit">transit</option>
 			</select>
 		</div>
-	</form>
   </div>
 </div>
 
