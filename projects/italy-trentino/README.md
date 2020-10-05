@@ -6,7 +6,7 @@ https://github.com/DigitalCommonsLab/pelias-importer-trentino-opendata
 
 used as service in the [docker-compose.yml](https://github.com/DigitalCommonsLab/docker-pelias-geocoder/blob/master/projects/italy-trentino/docker-compose.yml#L143)
 
-# Setup
+## Setup
 Please refer to the instructions at https://github.com/pelias/docker in order to install and configure your docker environment.
 
 The file *.env* contains custom ENV variable passed to docker compose to specify
@@ -20,7 +20,7 @@ PELIAS_CONFIG=/var/www/pelias/docker/projects/italy-trentino/pelias.json
 ```
 *PELIAS_CONFIG* is absolute path di locate pelias config file
 
-# Run a Build
+## Run a Build
 To run a complete build configure and execute the script *build.sh*
 or the following commands separately:
 
@@ -29,11 +29,11 @@ first time setup or reset database
 pelias compose pull
 pelias elastic start
 pelias elastic wait
-#pelias elastic drop if you want reset data
+#pelias elastic drop #if you want reset data
 pelias elastic create
 ```
 
-Download data, firstime or update
+### Download data, firstime or update
 ```bash
 pelias download wof
 pelias download osm
@@ -43,14 +43,15 @@ pelias download trentino
 
 because of this:
 https://github.com/pelias/openstreetmap/issues/542
-
 at this step run:
 ```bash
 cd /data/openstreetmap/
 mv trentino-alto-adige.pbf trentino-alto-adige.osm.pbf
 ```
 
-Import data
+### Import data
+only for updates data run this before: pelias elastic drop
+
 ```bash
 pelias prepare trentino
 #
@@ -64,12 +65,12 @@ pelias import oa
 pelias import polylines
 ```
 
-first time
+### First time
 ```bash
 pelias compose up
 ```
 
-## API CONFIG
+### API CONFIG
 
 defaults values:
 https://github.com/pelias/config/blob/master/config/defaults.json
