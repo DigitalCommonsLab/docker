@@ -136,7 +136,7 @@ services:
       #TODO create code to overlapping roads osm/csv
     volumes:
       - "${DATA_DIR}:/data"
-      - "/home/z4k/pelias/pelias-importer-trentino-opendata/bin/csv2polyline.js:/code/bin/csv2polyline.js"
+      #- "/home/z4k/pelias/pelias-importer-trentino-opendata/bin/csv2polyline.js:/code/bin/csv2polyline.js"
 
   trentino-opendata-test:
    image: nginx
