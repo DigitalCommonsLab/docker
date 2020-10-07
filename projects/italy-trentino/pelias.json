@@ -114,12 +114,12 @@
         "storo_civici.csv"
       ]
     },
-    "___transit": {
+    "transit": {
       "datapath": "/data/transit",
       "feeds": [
         {
           "layerId": "stops",
-          "url": "http://www.ttesercizio.it/opendata/google_transit_urbano_tte.zip",
+          "url": "https://www.trentinotrasporti.it/opendata/google_transit_urbano_tte.zip",
           "filename": "stops.txt",
           "agencyId": "tte",
           "agencyName": "trentino trasporti esercizio",
