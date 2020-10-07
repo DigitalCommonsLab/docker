@@ -41,6 +41,8 @@ pelias download transit
 pelias download trentino
 ```
 
+don't run ```pelias download all``` because return error in openaddress download
+
 because of this:
 https://github.com/pelias/openstreetmap/issues/542
 at this step run:
@@ -58,6 +60,10 @@ pelias prepare trentino
 pelias prepare polylines
 pelias prepare interpolation
 pelias prepare placeholder
+```
+
+import new prepared data into elastic index
+```bash
 #pelias import wof cause error
 pelias import osm
 #pelias import transit invalid quote

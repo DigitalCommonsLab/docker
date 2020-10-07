@@ -114,7 +114,7 @@
         "storo_civici.csv"
       ]
     },
-    "transit": {
+    "___transit": {
       "datapath": "/data/transit",
       "feeds": [
         {
