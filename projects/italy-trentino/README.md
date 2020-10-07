@@ -76,6 +76,12 @@ pelias import polylines
 pelias compose up
 ```
 
+and for testing UI
+
+```bash
+docker-compose up -d trentino-opendata-test
+```
+
 ### API CONFIG
 
 defaults values:
