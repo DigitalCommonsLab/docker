@@ -142,7 +142,7 @@ services:
   trentino-opendata-test:
    image: nginx
    container_name: trentino_opendata_test
-   ports: [ "${TEST_UI_PORT}:80" ]
+   ports: [ "${UI_PORT}:80" ]
    volumes:
      - "./preview/index.html:/usr/share/nginx/html/index.html"
    restart: always
