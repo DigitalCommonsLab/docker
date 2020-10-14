@@ -123,7 +123,7 @@
           "filename": "stops.txt",
           "agencyId": "tte",
           "agencyName": "trentino trasporti esercizio",
-          "layerName": "stop"
+          "layerName": "stops"
         }
       ]
     }
