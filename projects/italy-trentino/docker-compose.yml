@@ -60,8 +60,7 @@ services:
       - "${DATA_DIR}:/data"
       - "./blacklist/:/data/blacklist"
   transit:
-    #image: pelias/transit:master
-    image: stefcud/transit:latest
+    image: pelias/transit:master
     container_name: pelias_transit
     user: "${DOCKER_USER}"
     volumes:
