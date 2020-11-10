@@ -27,7 +27,6 @@
     }
   },
   "api": {
-    "textAnalyzer": "libpostal",
     "targets": {
       "canonical_sources": [
         "transit",
